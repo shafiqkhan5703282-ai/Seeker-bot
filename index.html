@@ -381,15 +381,6 @@ body{
     padding:3px 0;
 }
 
-.footer{
-    text-align:center;
-    margin-top:16px;
-    color:#475569;
-    font-size:9px;
-    line-height:1.5;
-}
-
-/* Countdown */
 .countdown{
     margin-top:15px;
     font-size:11px;
@@ -402,8 +393,16 @@ body{
     color:#e2e8f0;
 }
 
-/* Mobile */
+.footer{
+    text-align:center;
+    margin-top:16px;
+    color:#475569;
+    font-size:9px;
+    line-height:1.5;
+}
+
 @media(max-width:380px){
+
     .app{
         padding-left:10px;
         padding-right:10px;
@@ -424,23 +423,22 @@ body{
 
 <div class="app">
 
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">SEEKER BOT</div>
         <div class="subtitle">AI SIGNAL ENGINE • V5.1</div>
     </div>
 
-    <!-- SETTINGS -->
+
     <div class="panel">
 
         <div class="field">
+
             <label class="label" for="assetPair">
                 Asset Pair
             </label>
 
             <select id="assetPair" class="select">
 
-                <!-- FOREX OTC -->
                 <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
                 <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
                 <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
@@ -467,18 +465,16 @@ body{
                 <option value="AUD/NZD (OTC)">AUD/NZD (OTC)</option>
                 <option value="AUD/CHF (OTC)">AUD/CHF (OTC)</option>
 
-                <option value="CAD/CHF (OTC)">CAD/CHF (OTC)</option>
+                <option value="CAD/CHF (OTC)" selected>CAD/CHF (OTC)</option>
                 <option value="CAD/JPY (OTC)">CAD/JPY (OTC)</option>
 
                 <option value="NZD/JPY (OTC)">NZD/JPY (OTC)</option>
                 <option value="NZD/CAD (OTC)">NZD/CAD (OTC)</option>
                 <option value="NZD/CHF (OTC)">NZD/CHF (OTC)</option>
 
-                <!-- CRYPTO -->
                 <option value="BTC/USD (OTC)">BTC/USD (OTC)</option>
                 <option value="ETH/USD (OTC)">ETH/USD (OTC)</option>
 
-                <!-- COMMODITIES -->
                 <option value="GOLD (OTC)">GOLD (OTC)</option>
                 <option value="SILVER (OTC)">SILVER (OTC)</option>
                 <option value="US CRUDE (OTC)">US CRUDE (OTC)</option>
@@ -486,17 +482,18 @@ body{
             </select>
         </div>
 
+
         <div class="field">
+
             <label class="label" for="expirationTime">
                 Expiration / Time Frame
             </label>
 
             <select id="expirationTime" class="select">
 
-                <!-- SECONDS -->
                 <option value="3 SECONDS">3 Seconds</option>
                 <option value="5 SECONDS">5 Seconds</option>
-                <option value="7 SECONDS">7 Seconds</option>
+                <option value="7 SECONDS" selected>7 Seconds</option>
                 <option value="9 SECONDS">9 Seconds</option>
                 <option value="12 SECONDS">12 Seconds</option>
                 <option value="15 SECONDS">15 Seconds</option>
@@ -507,7 +504,6 @@ body{
                 <option value="28 SECONDS">28 Seconds</option>
                 <option value="31 SECONDS">31 Seconds</option>
 
-                <!-- MINUTES -->
                 <option value="1 MINUTE">1 Minute</option>
                 <option value="2 MINUTES">2 Minutes</option>
                 <option value="3 MINUTES">3 Minutes</option>
@@ -527,99 +523,157 @@ body{
             </select>
         </div>
 
+
         <button
             id="analyseButton"
             class="analyse-btn"
             type="button"
             onclick="generateSignal()">
+
             ANALYSE & GENERATE SIGNAL
+
         </button>
 
     </div>
 
-    <!-- ENGINE STATUS -->
+
     <div class="panel">
 
         <div class="status-row">
+
             <div class="status-title">
                 SIGNAL ENGINE
             </div>
 
             <div class="status-dot">
-                <div id="serverDot" class="dot"></div>
-                <span id="serverStatus">CHECKING</span>
+
+                <div
+                    id="serverDot"
+                    class="dot">
+                </div>
+
+                <span id="serverStatus">
+                    CHECKING
+                </span>
+
             </div>
+
         </div>
 
-        <!-- SIGNAL -->
-        <div id="signalCard" class="signal-card wait">
+
+        <div
+            id="signalCard"
+            class="signal-card wait">
 
             <div class="signal-label">
                 FINAL SIGNAL
             </div>
 
+
             <div
                 id="signalText"
                 class="signal-text wait">
+
                 WAIT
+
             </div>
+
 
             <div
                 id="signalBadge"
                 class="badge">
+
                 READY
+
             </div>
+
 
             <div class="countdown">
+
                 SELECTED TIME:
-                <span id="selectedTime">--</span>
+                <span id="selectedTime">
+                    --
+                </span>
+
             </div>
 
-            <!-- INFO -->
+
             <div class="info-grid">
 
                 <div class="info-box">
-                    <div class="info-title">Asset</div>
+
+                    <div class="info-title">
+                        Asset
+                    </div>
+
                     <div
                         id="assetValue"
                         class="info-value">
+
                         --
+
                     </div>
+
                 </div>
 
+
                 <div class="info-box">
-                    <div class="info-title">Price</div>
+
+                    <div class="info-title">
+                        Price
+                    </div>
+
                     <div
                         id="priceValue"
                         class="info-value">
+
                         --
+
                     </div>
+
                 </div>
 
+
                 <div class="info-box">
-                    <div class="info-title">Source</div>
+
+                    <div class="info-title">
+                        Source
+                    </div>
+
                     <div
                         id="sourceValue"
                         class="info-value">
+
                         --
+
                     </div>
+
                 </div>
 
+
                 <div class="info-box">
-                    <div class="info-title">Score</div>
+
+                    <div class="info-title">
+                        Score
+                    </div>
+
                     <div
                         id="scoreValue"
                         class="info-value">
+
                         --
+
                     </div>
+
                 </div>
 
             </div>
 
-            <!-- CONFIDENCE -->
+
             <div class="confidence">
 
                 <div class="confidence-top">
+
                     <div class="confidence-title">
                         SIGNAL STRENGTH
                     </div>
@@ -627,20 +681,26 @@ body{
                     <div
                         id="confidenceValue"
                         class="confidence-value">
+
                         --
+
                     </div>
+
                 </div>
 
+
                 <div class="progress">
+
                     <div
                         id="confidenceBar"
                         class="progress-bar">
                     </div>
+
                 </div>
 
             </div>
 
-            <!-- REASONS -->
+
             <div
                 id="reasonBox"
                 class="reason-box"
@@ -656,7 +716,7 @@ body{
 
         </div>
 
-        <!-- ERROR -->
+
         <div
             id="errorMessage"
             class="message">
@@ -664,9 +724,12 @@ body{
 
     </div>
 
+
     <div class="footer">
+
         SEEKER BOT V5.1<br>
         Signal output is for informational/trading-assistance purposes.
+
     </div>
 
 </div>
@@ -675,41 +738,14 @@ body{
 <script>
 
 /* =========================================================
-   SIGNAL NORMALIZER
+   IMPORTANT:
+   PUT YOUR RENDER BACKEND URL HERE
+   Example:
+   https://seeker-bot-api.onrender.com
 ========================================================= */
 
-function normalizeSignal(value){
-
-    if(value === undefined || value === null){
-        return null;
-    }
-
-    const signal = String(value)
-        .trim()
-        .toUpperCase();
-
-    if(
-        signal === "BUY" ||
-        signal === "CALL" ||
-        signal === "UP" ||
-        signal === "LONG" ||
-        signal === "BULLISH"
-    ){
-        return "BUY";
-    }
-
-    if(
-        signal === "SELL" ||
-        signal === "PUT" ||
-        signal === "DOWN" ||
-        signal === "SHORT" ||
-        signal === "BEARISH"
-    ){
-        return "SELL";
-    }
-
-    return null;
-}
+const API_BASE =
+    "PASTE-YOUR-RENDER-URL-HERE";
 
 
 /* =========================================================
@@ -772,21 +808,66 @@ const reasonList =
 
 
 /* =========================================================
-   UPDATE SELECTED INFORMATION
+   NORMALIZE SIGNAL
+========================================================= */
+
+function normalizeSignal(value){
+
+    if(
+        value === undefined ||
+        value === null
+    ){
+        return null;
+    }
+
+    const signal =
+        String(value)
+        .trim()
+        .toUpperCase();
+
+    if(
+        signal === "BUY" ||
+        signal === "CALL" ||
+        signal === "UP" ||
+        signal === "LONG" ||
+        signal === "BULLISH"
+    ){
+
+        return "BUY";
+
+    }
+
+
+    if(
+        signal === "SELL" ||
+        signal === "PUT" ||
+        signal === "DOWN" ||
+        signal === "SHORT" ||
+        signal === "BEARISH"
+    ){
+
+        return "SELL";
+
+    }
+
+
+    return null;
+}
+
+
+/* =========================================================
+   UPDATE SELECTION
 ========================================================= */
 
 function updateSelection(){
 
-    if(assetPair){
-        assetValue.textContent =
-            assetPair.value || "--";
-    }
+    assetValue.textContent =
+        assetPair.value || "--";
 
-    if(expirationTime){
-        selectedTime.textContent =
-            expirationTime.value || "--";
-    }
+    selectedTime.textContent =
+        expirationTime.value || "--";
 }
+
 
 assetPair.addEventListener(
     "change",
@@ -802,7 +883,7 @@ updateSelection();
 
 
 /* =========================================================
-   SIGNAL COLOR
+   APPLY FINAL SIGNAL
    BUY = GREEN
    SELL = RED
 ========================================================= */
@@ -834,59 +915,113 @@ function applySignal(signal){
         "sell"
     );
 
+
     if(signal === "BUY"){
 
-        signalCard.classList.add("buy");
+        signalCard.classList.add(
+            "buy"
+        );
 
-        signalText.classList.add("buy");
+        signalText.classList.add(
+            "buy"
+        );
 
-        signalBadge.classList.add("buy");
+        signalBadge.classList.add(
+            "buy"
+        );
 
-        confidenceBar.classList.add("buy");
+        confidenceBar.classList.add(
+            "buy"
+        );
 
-        signalText.textContent = "BUY";
+        signalText.textContent =
+            "BUY";
 
-        signalBadge.textContent = "BUY";
+        signalBadge.textContent =
+            "BUY";
 
     }
+
+
     else if(signal === "SELL"){
 
-        signalCard.classList.add("sell");
+        signalCard.classList.add(
+            "sell"
+        );
 
-        signalText.classList.add("sell");
+        signalText.classList.add(
+            "sell"
+        );
 
-        signalBadge.classList.add("sell");
+        signalBadge.classList.add(
+            "sell"
+        );
 
-        confidenceBar.classList.add("sell");
+        confidenceBar.classList.add(
+            "sell"
+        );
 
-        signalText.textContent = "SELL";
+        signalText.textContent =
+            "SELL";
 
-        signalBadge.textContent = "SELL";
+        signalBadge.textContent =
+            "SELL";
 
     }
+
+
     else{
 
-        signalCard.classList.add("wait");
+        signalCard.classList.add(
+            "wait"
+        );
 
-        signalText.classList.add("wait");
+        signalText.classList.add(
+            "wait"
+        );
 
-        signalText.textContent = "WAIT";
+        signalText.textContent =
+            "WAIT";
 
-        signalBadge.textContent = "WAIT";
+        signalBadge.textContent =
+            "WAIT";
     }
 }
 
 
 /* =========================================================
-   SERVER STATUS
+   SERVER CHECK
 ========================================================= */
 
 async function checkServer(){
+
+    if(
+        !API_BASE ||
+        API_BASE.includes(
+            "PASTE-YOUR-RENDER-URL"
+        )
+    ){
+
+        serverDot.classList.remove(
+            "online"
+        );
+
+        serverDot.classList.add(
+            "error"
+        );
+
+        serverStatus.textContent =
+            "API URL NEEDED";
+
+        return;
+    }
+
 
     try{
 
         const response =
             await fetch(
+                API_BASE +
                 "/api/health",
                 {
                     method:"GET",
@@ -894,28 +1029,67 @@ async function checkServer(){
                 }
             );
 
+
         if(!response.ok){
-            throw new Error("Server offline");
+
+            throw new Error(
+                "Backend offline"
+            );
         }
 
-        serverDot.classList.remove("error");
-        serverDot.classList.add("online");
 
-        serverStatus.textContent = "ONLINE";
+        const data =
+            await response.json();
+
+
+        if(
+            data.ok !== true &&
+            data.status !== "online"
+        ){
+
+            throw new Error(
+                "Invalid health response"
+            );
+        }
+
+
+        serverDot.classList.remove(
+            "error"
+        );
+
+        serverDot.classList.add(
+            "online"
+        );
+
+        serverStatus.textContent =
+            "ONLINE";
 
     }
+
+
     catch(error){
 
-        serverDot.classList.remove("online");
-        serverDot.classList.add("error");
+        console.error(
+            "Health check:",
+            error
+        );
 
-        serverStatus.textContent = "OFFLINE";
+        serverDot.classList.remove(
+            "online"
+        );
+
+        serverDot.classList.add(
+            "error"
+        );
+
+        serverStatus.textContent =
+            "OFFLINE";
     }
 }
 
 
 /* =========================================================
-   ERROR
+   SHOW ERROR
 ========================================================= */
 
 function showError(message){
@@ -926,7 +1100,10 @@ function showError(message){
         "wait"
     );
 
-    signalCard.classList.add("error");
+    signalCard.classList.add(
+        "error"
+    );
+
 
     signalText.classList.remove(
         "buy",
@@ -934,18 +1111,26 @@ function showError(message){
         "wait"
     );
 
-    signalText.classList.add("error");
+    signalText.classList.add(
+        "error"
+    );
 
-    signalText.textContent = "ERROR";
+    signalText.textContent =
+        "ERROR";
+
 
     signalBadge.classList.remove(
         "buy",
         "sell"
     );
 
-    signalBadge.classList.add("error");
+    signalBadge.classList.add(
+        "error"
+    );
 
-    signalBadge.textContent = "ERROR";
+    signalBadge.textContent =
+        "ERROR";
+
 
     errorMessage.textContent =
         message;
@@ -961,16 +1146,23 @@ function showError(message){
 
 function clearError(){
 
-    errorMessage.textContent = "";
+    errorMessage.textContent =
+        "";
 
     errorMessage.style.display =
         "none";
 
-    signalCard.classList.remove("error");
+    signalCard.classList.remove(
+        "error"
+    );
 
-    signalText.classList.remove("error");
+    signalText.classList.remove(
+        "error"
+    );
 
-    signalBadge.classList.remove("error");
+    signalBadge.classList.remove(
+        "error"
+    );
 }
 
 
@@ -994,22 +1186,31 @@ function showReasons(reasons){
         return;
     }
 
-    reasonList.innerHTML = "";
 
-    reasons.forEach(reason => {
+    reasonList.innerHTML =
+        "";
 
-        const div =
-            document.createElement("div");
 
-        div.className =
-            "reason";
+    reasons.forEach(
+        function(reason){
 
-        div.textContent =
-            "• " + String(reason);
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-        reasonList.appendChild(div);
+            div.className =
+                "reason";
 
-    });
+            div.textContent =
+                "• " + String(reason);
+
+            reasonList.appendChild(
+                div
+            );
+        }
+    );
+
 
     reasonBox.style.display =
         "block";
@@ -1026,11 +1227,28 @@ async function generateSignal(){
 
     updateSelection();
 
+
+    if(
+        !API_BASE ||
+        API_BASE.includes(
+            "PASTE-YOUR-RENDER-URL"
+        )
+    ){
+
+        showError(
+            "Add your Render backend URL in API_BASE first."
+        );
+
+        return;
+    }
+
+
     const pair =
         assetPair.value;
 
     const expiration =
         expirationTime.value;
+
 
     analyseButton.disabled =
         true;
@@ -1038,9 +1256,6 @@ async function generateSignal(){
     analyseButton.textContent =
         "ANALYSING...";
 
-    /*
-       Keep selected pair/timeframe exactly as selected.
-    */
 
     signalCard.classList.remove(
         "buy",
@@ -1051,6 +1266,7 @@ async function generateSignal(){
     signalCard.classList.add(
         "wait"
     );
+
 
     signalText.classList.remove(
         "buy",
@@ -1065,6 +1281,7 @@ async function generateSignal(){
     signalText.textContent =
         "ANALYSING";
 
+
     signalBadge.classList.remove(
         "buy",
         "sell",
@@ -1073,6 +1290,7 @@ async function generateSignal(){
 
     signalBadge.textContent =
         "ANALYSING";
+
 
     confidenceValue.textContent =
         "--";
@@ -1089,77 +1307,79 @@ async function generateSignal(){
     scoreValue.textContent =
         "--";
 
+
     try{
 
         const url =
+            API_BASE +
             "/api/signal" +
             "?pair=" +
             encodeURIComponent(pair) +
             "&expiration=" +
             encodeURIComponent(expiration);
 
+
         console.log(
-            "Requesting signal:",
+            "SIGNAL REQUEST:",
             url
         );
+
 
         const response =
             await fetch(
                 url,
                 {
                     method:"GET",
+
                     headers:{
                         "Accept":
                             "application/json"
                     },
+
                     cache:"no-store"
                 }
             );
 
-        /*
-          Important:
-          Do not try to parse an error page as JSON.
-        */
 
         const contentType =
             response.headers.get(
                 "content-type"
             ) || "";
 
-        if(!contentType.includes(
-            "application/json"
-        )){
 
-            const text =
-                await response.text();
+        if(
+            !contentType
+            .toLowerCase()
+            .includes(
+                "application/json"
+            )
+        ){
 
             throw new Error(
-                "Server did not return JSON. " +
-                "Check /api/signal in server.py."
+                "Backend did not return JSON."
             );
         }
 
+
         const data =
             await response.json();
+
 
         console.log(
             "SIGNAL RESPONSE:",
             data
         );
 
+
         if(!response.ok){
 
             throw new Error(
                 data.detail ||
                 data.message ||
-                "Signal server error"
+                "Signal API error."
             );
         }
 
-
-        /* =========================================
-           ACCEPT MULTIPLE BACKEND FIELD NAMES
-        ========================================= */
 
         const signal =
             normalizeSignal(
@@ -1172,28 +1392,21 @@ async function generateSignal(){
             );
 
 
-        /*
-          This is the important fix.
-
-          Backend must return BUY or SELL.
-          Frontend converts:
-          CALL/UP/LONG -> BUY
-          PUT/DOWN/SHORT -> SELL
-        */
-
         if(!signal){
 
             throw new Error(
-                "Server returned no valid BUY or SELL signal."
+                "Backend returned no BUY or SELL signal."
             );
         }
 
 
         /* =========================================
-           FINAL SIGNAL
+           FINAL BUY / SELL
         ========================================= */
 
-        applySignal(signal);
+        applySignal(
+            signal
+        );
 
 
         /* =========================================
@@ -1217,6 +1430,7 @@ async function generateSignal(){
 
             priceValue.textContent =
                 data.price;
+
         }
         else{
 
@@ -1246,6 +1460,7 @@ async function generateSignal(){
 
             scoreValue.textContent =
                 data.score;
+
         }
         else{
 
@@ -1263,10 +1478,13 @@ async function generateSignal(){
             data.strength ??
             data.signal_strength;
 
+
         if(
             confidence !== undefined &&
             confidence !== null &&
-            !isNaN(Number(confidence))
+            !isNaN(
+                Number(confidence)
+            )
         ){
 
             confidence =
@@ -1278,20 +1496,18 @@ async function generateSignal(){
                     )
                 );
 
-            confidenceValue.textContent =
-                Math.round(confidence) + "%";
-
-            confidenceBar.style.width =
-                Math.round(confidence) + "%";
-
-        }
-        else{
 
             confidenceValue.textContent =
-                "--";
+                Math.round(
+                    confidence
+                ) + "%";
+
 
             confidenceBar.style.width =
-                "0%";
+                Math.round(
+                    confidence
+                ) + "%";
+
         }
 
 
@@ -1329,17 +1545,21 @@ async function generateSignal(){
         );
 
     }
+
+
     catch(error){
 
         console.error(
-            "Signal engine error:",
+            "SIGNAL ERROR:",
             error
         );
+
 
         showError(
             error.message ||
             "Signal engine error."
         );
+
 
         serverDot.classList.remove(
             "online"
@@ -1351,7 +1571,10 @@ async function generateSignal(){
 
         serverStatus.textContent =
             "ERROR";
+
     }
+
+
     finally{
 
         analyseButton.disabled =
@@ -1364,14 +1587,17 @@ async function generateSignal(){
 
 
 /* =========================================================
-   STARTUP
+   START
 ========================================================= */
+
+updateSelection();
 
 checkServer();
 
+
 /*
-   Check server every 10 seconds.
-   This does NOT automatically generate trades/signals.
+   Check backend every 10 seconds.
+   It does NOT automatically generate trades.
 */
 
 setInterval(
