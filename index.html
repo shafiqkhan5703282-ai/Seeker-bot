@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0b0e14">
 
-<title>SEEKER BOT - Signal Engine</title>
+<title>SEEKER BOT - AI Signal Engine</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-body {
-  min-height: 100vh;
+body{
+  min-height:100vh;
   background:
     radial-gradient(
       circle at top,
@@ -23,7 +24,7 @@ body {
       #0b0e14 42%,
       #06080c 100%
     );
-  color: #fff;
+  color:#fff;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -33,297 +34,286 @@ body {
     sans-serif;
 }
 
-.app {
-  width: 100%;
-  max-width: 540px;
-  min-height: 100vh;
-  margin: auto;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
+.app{
+  width:100%;
+  max-width:540px;
+  min-height:100vh;
+  margin:auto;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
 }
 
 /* HEADER */
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 2px 14px;
-  border-bottom: 1px solid #252b36;
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:9px 2px 14px;
+  border-bottom:1px solid #252b36;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: #ff7d00;
-  font-size: 19px;
-  font-weight: 1000;
-  letter-spacing: 1px;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#ff7d00;
+  font-size:19px;
+  font-weight:1000;
+  letter-spacing:1px;
 }
 
-.logo-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: #ff7d00;
+.logo-dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#ff7d00;
   box-shadow:
     0 0 8px #ff7d00,
     0 0 18px rgba(255,125,0,.7);
 }
 
-.version {
-  color: #ff9a32;
-  background: #151a23;
-  border: 1px solid #704000;
-  padding: 6px 9px;
-  border-radius: 7px;
-  font-size: 9px;
-  font-weight: 900;
+.version{
+  color:#ff9a32;
+  background:#151a23;
+  border:1px solid #704000;
+  padding:6px 9px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:900;
 }
 
 /* CONTROLS */
 
-.controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-  margin-top: 11px;
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:11px;
 }
 
-.box {
+.box{
   background:
     linear-gradient(
       145deg,
       #131822,
       #0d1118
     );
-  border: 1px solid #292f3b;
-  border-radius: 13px;
-  padding: 10px;
+  border:1px solid #292f3b;
+  border-radius:13px;
+  padding:10px;
   box-shadow:
     inset 0 0 18px rgba(255,255,255,.015);
 }
 
-.label {
-  display: block;
-  color: #ff922e;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  margin-bottom: 7px;
+.label{
+  display:block;
+  color:#ff922e;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-bottom:7px;
 }
 
-select {
-  width: 100%;
-  min-width: 0;
-  background: #080b10;
-  color: #fff;
-  border: 1px solid #2b313d;
-  border-radius: 9px;
-  padding: 10px 7px;
-  font-size: 11px;
-  outline: none;
+select{
+  width:100%;
+  min-width:0;
+  background:#080b10;
+  color:#fff;
+  border:1px solid #2b313d;
+  border-radius:9px;
+  padding:10px 7px;
+  font-size:11px;
+  outline:none;
 }
 
-select:focus {
-  border-color: #ff7d00;
-  box-shadow: 0 0 0 2px rgba(255,125,0,.08);
+select:focus{
+  border-color:#ff7d00;
+  box-shadow:0 0 0 2px rgba(255,125,0,.08);
 }
 
 option,
-optgroup {
-  background: #0b0e14;
-  color: #fff;
+optgroup{
+  background:#0b0e14;
+  color:#fff;
 }
 
 /* STATUS */
 
-.status {
-  text-align: center;
-  min-height: 18px;
-  padding-top: 7px;
-  color: #89919f;
-  font-size: 9px;
+.status{
+  text-align:center;
+  min-height:18px;
+  padding-top:7px;
+  color:#89919f;
+  font-size:9px;
 }
 
 /* MAIN */
 
-.main {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 0 12px;
+.main{
+  flex:1;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:8px 0 12px;
 }
 
 /* ANALYZING */
 
-.analyzing {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.analyzing{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-.loader {
-  position: relative;
-  width: 158px;
-  height: 158px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid rgba(255,125,0,.12);
+.loader{
+  position:relative;
+  width:158px;
+  height:158px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:3px solid rgba(255,125,0,.12);
   box-shadow:
     inset 0 0 30px rgba(255,125,0,.03);
 }
 
-.loader::before {
-  content: "";
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  border-top-color: #ff7d00;
-  border-right-color: #ff7d00;
-  animation: spin 1s linear infinite;
-  filter: drop-shadow(
+.loader::before{
+  content:"";
+  position:absolute;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  border:3px solid transparent;
+  border-top-color:#ff7d00;
+  border-right-color:#ff7d00;
+  animation:spin 1s linear infinite;
+  filter:drop-shadow(
     0 0 7px rgba(255,125,0,.7)
   );
 }
 
-.loader::after {
-  content: "";
-  position: absolute;
-  width: 116px;
-  height: 116px;
-  border-radius: 50%;
-  border: 2px dashed rgba(255,125,0,.3);
-  animation: reverseSpin 5s linear infinite;
+.loader::after{
+  content:"";
+  position:absolute;
+  width:116px;
+  height:116px;
+  border-radius:50%;
+  border:2px dashed rgba(255,125,0,.3);
+  animation:reverseSpin 5s linear infinite;
 }
 
-.loader-text {
-  position: relative;
-  z-index: 5;
-  color: #ff922e;
-  font-size: 11px;
-  font-weight: 1000;
-  letter-spacing: .5px;
+.loader-text{
+  position:relative;
+  z-index:5;
+  color:#ff922e;
+  font-size:11px;
+  font-weight:1000;
+  letter-spacing:.5px;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+@keyframes spin{
+  from{
+    transform:rotate(0deg);
   }
 
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes reverseSpin {
-  from {
-    transform: rotate(360deg);
-  }
-
-  to {
-    transform: rotate(0deg);
+  to{
+    transform:rotate(360deg);
   }
 }
 
-.steps {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 24px;
+@keyframes reverseSpin{
+  from{
+    transform:rotate(360deg);
+  }
+
+  to{
+    transform:rotate(0deg);
+  }
 }
 
-.step {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 12px;
-  margin-bottom: 7px;
-  border-radius: 8px;
-  background: #11151e;
-  border: 1px solid #242a35;
-  color: #747c8b;
-  font-size: 10px;
-  transition: .2s;
+.steps{
+  width:100%;
+  max-width:400px;
+  margin-top:24px;
 }
 
-.step.done {
-  color: #ff922e;
-  border-color: #744000;
-  background: #15130f;
+.step{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 12px;
+  margin-bottom:7px;
+  border-radius:8px;
+  background:#11151e;
+  border:1px solid #242a35;
+  color:#747c8b;
+  font-size:10px;
+  transition:.2s;
 }
 
-.step.active {
-  color: #fff;
-  border-color: #ff7d00;
+.step.done{
+  color:#00ff66;
+  border-color:#145c35;
+  background:#0d1712;
 }
 
-.hidden {
-  display: none !important;
+.step.active{
+  color:#fff;
+  border-color:#ff7d00;
+}
+
+.hidden{
+  display:none !important;
 }
 
 /* SIGNAL */
 
-.signal-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.signal-card{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-.badge {
-  width: 195px;
-  height: 195px;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 18px;
-  margin-bottom: 17px;
-  position: relative;
+.badge{
+  width:195px;
+  height:195px;
+  border-radius:50%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:18px;
+  margin-bottom:17px;
+  position:relative;
 }
 
-.badge::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.06);
+.badge::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
 }
 
-.badge.wait {
-  background:
-    radial-gradient(
-      circle,
-      rgba(255,208,0,.13),
-      rgba(65,55,0,.25)
-    );
-  border: 2px solid #ffd000;
-  box-shadow:
-    0 0 18px rgba(255,208,0,.35),
-    inset 0 0 30px rgba(255,208,0,.06);
-}
+/* BUY */
 
-.badge.buy {
+.badge.buy{
   background:
     radial-gradient(
       circle,
       rgba(0,255,102,.14),
       rgba(0,70,30,.22)
     );
-  border: 2px solid #00ff66;
+  border:2px solid #00ff66;
   box-shadow:
     0 0 24px rgba(0,255,102,.5),
     inset 0 0 35px rgba(0,255,102,.06);
@@ -331,14 +321,16 @@ optgroup {
     greenPulse 1.4s ease-in-out infinite alternate;
 }
 
-.badge.sell {
+/* SELL */
+
+.badge.sell{
   background:
     radial-gradient(
       circle,
       rgba(255,23,68,.14),
       rgba(75,0,15,.24)
     );
-  border: 2px solid #ff1744;
+  border:2px solid #ff1744;
   box-shadow:
     0 0 24px rgba(255,23,68,.5),
     inset 0 0 35px rgba(255,23,68,.06);
@@ -346,1211 +338,826 @@ optgroup {
     redPulse 1.4s ease-in-out infinite alternate;
 }
 
-@keyframes greenPulse {
-  from {
-    transform: scale(.985);
+/* WAIT */
+
+.badge.wait{
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,208,0,.13),
+      rgba(65,55,0,.25)
+    );
+  border:2px solid #ffd000;
+  box-shadow:
+    0 0 18px rgba(255,208,0,.35),
+    inset 0 0 30px rgba(255,208,0,.06);
+}
+
+@keyframes greenPulse{
+
+  from{
+    transform:scale(.985);
     box-shadow:
       0 0 18px rgba(0,255,102,.35),
       inset 0 0 25px rgba(0,255,102,.05);
   }
 
-  to {
-    transform: scale(1.02);
+  to{
+    transform:scale(1.02);
     box-shadow:
       0 0 40px rgba(0,255,102,.75),
       inset 0 0 35px rgba(0,255,102,.08);
   }
+
 }
 
-@keyframes redPulse {
-  from {
-    transform: scale(.985);
+@keyframes redPulse{
+
+  from{
+    transform:scale(.985);
     box-shadow:
       0 0 18px rgba(255,23,68,.35),
       inset 0 0 25px rgba(255,23,68,.05);
   }
 
-  to {
-    transform: scale(1.02);
+  to{
+    transform:scale(1.02);
     box-shadow:
       0 0 40px rgba(255,23,68,.75),
       inset 0 0 35px rgba(255,23,68,.08);
   }
+
 }
 
-.pair {
-  position: relative;
-  z-index: 2;
-  color: #e2e5ea;
-  font-size: 11px;
-  font-weight: 900;
+.pair{
+  position:relative;
+  z-index:2;
+  color:#e2e5ea;
+  font-size:11px;
+  font-weight:900;
 }
 
-.signal {
-  position: relative;
-  z-index: 2;
-  font-size: 26px;
-  font-weight: 1000;
-  margin: 6px 0;
+.signal{
+  position:relative;
+  z-index:2;
+  font-size:26px;
+  font-weight:1000;
+  margin:6px 0;
 }
 
-.exp {
-  position: relative;
-  z-index: 2;
-  color: #ffad54;
-  font-size: 10px;
-  font-weight: 900;
+.exp{
+  position:relative;
+  z-index:2;
+  color:#ffad54;
+  font-size:10px;
+  font-weight:900;
 }
 
-.buy-text {
-  color: #00ff66;
+.buy-text{
+  color:#00ff66;
   text-shadow:
     0 0 8px rgba(0,255,102,.7),
     0 0 18px rgba(0,255,102,.3);
 }
 
-.sell-text {
-  color: #ff1744;
+.sell-text{
+  color:#ff1744;
   text-shadow:
     0 0 8px rgba(255,23,68,.7),
     0 0 18px rgba(255,23,68,.3);
 }
 
-.wait-text {
-  color: #ffd000;
+.wait-text{
+  color:#ffd000;
   text-shadow:
     0 0 8px rgba(255,208,0,.6);
 }
 
 /* METRICS */
 
-.cards {
-  width: 100%;
-  max-width: 400px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+.cards{
+  width:100%;
+  max-width:400px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
-.metric {
+.metric{
   background:
     linear-gradient(
       145deg,
       #131821,
       #0e1219
     );
-  border: 1px solid #272d39;
-  border-radius: 10px;
-  padding: 12px 8px;
-  text-align: center;
+  border:1px solid #272d39;
+  border-radius:10px;
+  padding:12px 8px;
+  text-align:center;
 }
 
-.metric-title {
-  color: #818997;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: .4px;
+.metric-title{
+  color:#818997;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
 }
 
-.metric-value {
-  margin-top: 5px;
-  color: #ff9a32;
-  font-size: 17px;
-  font-weight: 1000;
+.metric-value{
+  margin-top:5px;
+  color:#ff9a32;
+  font-size:17px;
+  font-weight:1000;
 }
 
 /* INDICATORS */
 
-.indicators {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 9px;
-  padding: 11px 12px;
-  border-radius: 10px;
-  background: #11151e;
-  border: 1px solid #272d39;
+.indicators{
+  width:100%;
+  max-width:400px;
+  margin-top:9px;
+  padding:11px 12px;
+  border-radius:10px;
+  background:#11151e;
+  border:1px solid #272d39;
 }
 
-.indicator {
-  min-height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #202630;
-  font-size: 10px;
+.indicator{
+  min-height:27px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #202630;
+  font-size:10px;
 }
 
-.indicator:last-child {
-  border-bottom: 0;
+.indicator:last-child{
+  border-bottom:0;
 }
 
-.indicator-name {
-  color: #818997;
+.indicator-name{
+  color:#818997;
 }
 
-.bull {
-  color: #00ff66 !important;
-  font-weight: 1000;
+.bull{
+  color:#00ff66 !important;
+  font-weight:1000;
 }
 
-.bear {
-  color: #ff1744 !important;
-  font-weight: 1000;
+.bear{
+  color:#ff1744 !important;
+  font-weight:1000;
 }
 
-.neutral {
-  color: #ffd000 !important;
-  font-weight: 1000;
+.neutral{
+  color:#ffd000 !important;
+  font-weight:1000;
 }
 
 /* WARNING */
 
-.warning {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 9px;
-  padding: 10px;
-  border-radius: 8px;
-  background: rgba(105,80,0,.18);
-  border: 1px solid #665000;
-  color: #e1c95d;
-  font-size: 9px;
-  line-height: 1.45;
+.warning{
+  width:100%;
+  max-width:400px;
+  margin-top:9px;
+  padding:10px;
+  border-radius:8px;
+  background:rgba(105,80,0,.18);
+  border:1px solid #665000;
+  color:#e1c95d;
+  font-size:9px;
+  line-height:1.45;
 }
 
 /* REASON */
 
-.reason {
-  width: 100%;
-  max-width: 400px;
-  min-height: 25px;
-  color: #8b93a1;
-  font-size: 9px;
-  line-height: 1.45;
-  text-align: center;
-  margin-top: 8px;
+.reason{
+  width:100%;
+  max-width:400px;
+  min-height:25px;
+  color:#8b93a1;
+  font-size:9px;
+  line-height:1.45;
+  text-align:center;
+  margin-top:8px;
 }
 
-/* ACTION */
+/* BUTTON */
 
-.action {
-  width: 100%;
-  min-height: 50px;
-  border: 0;
-  border-radius: 12px;
+.action{
+  width:100%;
+  min-height:50px;
+  border:0;
+  border-radius:12px;
   background:
     linear-gradient(
       135deg,
       #ff8a00,
       #ff6a00
     );
-  color: #090b0f;
-  font-size: 13px;
-  font-weight: 1000;
-  letter-spacing: .8px;
-  cursor: pointer;
+  color:#090b0f;
+  font-size:13px;
+  font-weight:1000;
+  letter-spacing:.8px;
+  cursor:pointer;
   box-shadow:
     0 0 25px rgba(255,125,0,.2);
-  transition: .15s;
+  transition:.15s;
 }
 
-.action:active {
-  transform: scale(.98);
+.action:active{
+  transform:scale(.98);
 }
 
-.action:disabled {
-  opacity: .5;
-  cursor: not-allowed;
+.action:disabled{
+  opacity:.5;
+  cursor:not-allowed;
 }
 
-/* BOTTOM NAV */
+/* NAV */
 
-.nav {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 5px;
-  margin-top: 8px;
-  padding: 5px;
-  background: #11151e;
-  border: 1px solid #242a35;
-  border-radius: 10px;
+.nav{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+  margin-top:8px;
+  padding:5px;
+  background:#11151e;
+  border:1px solid #242a35;
+  border-radius:10px;
 }
 
-.nav button {
-  border: 0;
-  border-radius: 7px;
-  padding: 9px 3px;
-  background: transparent;
-  color: #727a89;
-  font-size: 9px;
-  font-weight: 800;
-  cursor: pointer;
+.nav button{
+  border:0;
+  border-radius:7px;
+  padding:9px 3px;
+  background:transparent;
+  color:#727a89;
+  font-size:9px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.nav button.active {
-  background: #1a1e27;
-  color: #ff7d00;
+.nav button.active{
+  background:#1a1e27;
+  color:#ff7d00;
 }
 
 /* MOBILE */
 
-@media (max-width: 390px) {
+@media(max-width:390px){
 
-  .app {
-    padding: 10px;
+  .app{
+    padding:10px;
   }
 
-  .logo {
-    font-size: 16px;
+  .logo{
+    font-size:16px;
   }
 
-  .version {
-    font-size: 8px;
+  .version{
+    font-size:8px;
   }
 
-  .controls {
-    gap: 6px;
+  .controls{
+    gap:6px;
   }
 
-  .box {
-    padding: 8px;
+  .box{
+    padding:8px;
   }
 
-  select {
-    font-size: 10px;
+  select{
+    font-size:10px;
   }
 
-  .badge {
-    width: 175px;
-    height: 175px;
+  .badge{
+    width:175px;
+    height:175px;
   }
 
-  .signal {
-    font-size: 23px;
+  .signal{
+    font-size:23px;
   }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-  <!-- HEADER -->
 
-  <div class="header">
+<!-- HEADER -->
 
-    <div class="logo">
-      <span class="logo-dot"></span>
-      SEEKER BOT
-    </div>
+<div class="header">
 
-    <div class="version">
-      PO & QUOTEX V5.0
-    </div>
+  <div class="logo">
+
+    <span class="logo-dot"></span>
+
+    SEEKER BOT
+
+  </div>
+
+  <div class="version">
+
+    PO & QUOTEX V5.1
+
+  </div>
+
+</div>
+
+
+<!-- CONTROLS -->
+
+<div class="controls">
+
+
+  <!-- PAIR -->
+
+  <div class="box">
+
+    <span class="label">
+      ACTIVE MARKET
+    </span>
+
+    <select id="assetPair">
+
+      <optgroup label="POCKET OPTION / QUOTEX OTC">
+
+        <option>EUR/USD (OTC)</option>
+        <option>GBP/USD (OTC)</option>
+        <option>USD/JPY (OTC)</option>
+        <option>USD/CHF (OTC)</option>
+        <option>USD/CAD (OTC)</option>
+        <option>AUD/USD (OTC)</option>
+        <option>NZD/USD (OTC)</option>
+        <option>EUR/GBP (OTC)</option>
+        <option>EUR/JPY (OTC)</option>
+        <option>EUR/CHF (OTC)</option>
+        <option>EUR/AUD (OTC)</option>
+        <option>EUR/CAD (OTC)</option>
+        <option>EUR/NZD (OTC)</option>
+        <option>GBP/JPY (OTC)</option>
+        <option>GBP/CHF (OTC)</option>
+        <option>GBP/AUD (OTC)</option>
+        <option>GBP/CAD (OTC)</option>
+        <option>GBP/NZD (OTC)</option>
+        <option>AUD/JPY (OTC)</option>
+        <option>AUD/NZD (OTC)</option>
+        <option>AUD/CAD (OTC)</option>
+        <option>AUD/CHF (OTC)</option>
+        <option>CAD/JPY (OTC)</option>
+        <option selected>CAD/CHF (OTC)</option>
+        <option>CAD/NZD (OTC)</option>
+        <option>NZD/JPY (OTC)</option>
+        <option>NZD/CAD (OTC)</option>
+        <option>NZD/CHF (OTC)</option>
+        <option>GOLD (OTC)</option>
+        <option>SILVER (OTC)</option>
+        <option>US CRUDE (OTC)</option>
+
+      </optgroup>
+
+
+      <optgroup label="LIVE FOREX REFERENCE">
+
+        <option>EUR/USD</option>
+        <option>GBP/USD</option>
+        <option>USD/JPY</option>
+        <option>USD/CHF</option>
+        <option>USD/CAD</option>
+        <option>AUD/USD</option>
+        <option>NZD/USD</option>
+        <option>EUR/GBP</option>
+        <option>EUR/JPY</option>
+        <option>EUR/CHF</option>
+        <option>EUR/AUD</option>
+        <option>EUR/CAD</option>
+        <option>EUR/NZD</option>
+        <option>GBP/JPY</option>
+        <option>GBP/CHF</option>
+        <option>GBP/AUD</option>
+        <option>GBP/CAD</option>
+        <option>GBP/NZD</option>
+        <option>AUD/JPY</option>
+        <option>AUD/NZD</option>
+        <option>AUD/CAD</option>
+        <option>AUD/CHF</option>
+        <option>CAD/JPY</option>
+        <option>CAD/CHF</option>
+        <option>NZD/JPY</option>
+        <option>NZD/CAD</option>
+        <option>NZD/CHF</option>
+
+      </optgroup>
+
+
+      <optgroup label="CRYPTO">
+
+        <option>BTC/USD</option>
+        <option>ETH/USD</option>
+
+      </optgroup>
+
+
+      <optgroup label="COMMODITIES">
+
+        <option>GOLD</option>
+        <option>SILVER</option>
+        <option>US CRUDE</option>
+
+      </optgroup>
+
+    </select>
 
   </div>
 
 
-  <!-- CONTROLS -->
+  <!-- EXPIRATION -->
 
-  <div class="controls">
+  <div class="box">
 
-    <div class="box">
+    <span class="label">
+      EXPIRATION TIME
+    </span>
 
-      <span class="label">
-        ACTIVE MARKET
-      </span>
+    <select id="expirationTime">
 
-      <select id="assetPair">
+      <optgroup label="SECONDS">
 
-        <!-- OTC -->
+        <option>3 SECONDS</option>
+        <option>5 SECONDS</option>
 
-        <optgroup label="POCKET OPTION / QUOTEX OTC">
+        <option selected>
+          7 SECONDS
+        </option>
 
-          <option>
-            EUR/USD (OTC)
-          </option>
+        <option>9 SECONDS</option>
+        <option>12 SECONDS</option>
+        <option>15 SECONDS</option>
+        <option>17 SECONDS</option>
+        <option>19 SECONDS</option>
+        <option>22 SECONDS</option>
+        <option>25 SECONDS</option>
+        <option>28 SECONDS</option>
+        <option>31 SECONDS</option>
+        <option>35 SECONDS</option>
+        <option>40 SECONDS</option>
+        <option>45 SECONDS</option>
+        <option>50 SECONDS</option>
+        <option>55 SECONDS</option>
+        <option>59 SECONDS</option>
 
-          <option>
-            GBP/USD (OTC)
-          </option>
+      </optgroup>
 
-          <option>
-            USD/JPY (OTC)
-          </option>
 
-          <option>
-            USD/CHF (OTC)
-          </option>
+      <optgroup label="MINUTES">
 
-          <option>
-            USD/CAD (OTC)
-          </option>
+        <option>1 MINUTE</option>
+        <option>2 MINUTES</option>
+        <option>3 MINUTES</option>
+        <option>5 MINUTES</option>
+        <option>10 MINUTES</option>
+        <option>15 MINUTES</option>
+        <option>20 MINUTES</option>
+        <option>25 MINUTES</option>
+        <option>30 MINUTES</option>
+        <option>35 MINUTES</option>
+        <option>40 MINUTES</option>
+        <option>45 MINUTES</option>
+        <option>50 MINUTES</option>
+        <option>55 MINUTES</option>
 
-          <option>
-            AUD/USD (OTC)
-          </option>
+      </optgroup>
 
-          <option>
-            NZD/USD (OTC)
-          </option>
 
-          <option>
-            EUR/GBP (OTC)
-          </option>
+      <optgroup label="HOUR">
 
-          <option>
-            EUR/JPY (OTC)
-          </option>
+        <option>1 HOUR</option>
 
-          <option>
-            EUR/CHF (OTC)
-          </option>
+      </optgroup>
 
-          <option>
-            EUR/AUD (OTC)
-          </option>
-
-          <option>
-            EUR/CAD (OTC)
-          </option>
-
-          <option>
-            EUR/NZD (OTC)
-          </option>
-
-          <option>
-            GBP/JPY (OTC)
-          </option>
-
-          <option>
-            GBP/CHF (OTC)
-          </option>
-
-          <option>
-            GBP/AUD (OTC)
-          </option>
-
-          <option>
-            GBP/CAD (OTC)
-          </option>
-
-          <option>
-            GBP/NZD (OTC)
-          </option>
-
-          <option>
-            AUD/JPY (OTC)
-          </option>
-
-          <option>
-            AUD/NZD (OTC)
-          </option>
-
-          <option>
-            AUD/CAD (OTC)
-          </option>
-
-          <option>
-            AUD/CHF (OTC)
-          </option>
-
-          <option>
-            CAD/JPY (OTC)
-          </option>
-
-          <option>
-            CAD/CHF (OTC)
-          </option>
-
-          <option>
-            CAD/NZD (OTC)
-          </option>
-
-          <option>
-            NZD/JPY (OTC)
-          </option>
-
-          <option>
-            NZD/CAD (OTC)
-          </option>
-
-          <option>
-            NZD/CHF (OTC)
-          </option>
-
-          <option>
-            GOLD (OTC)
-          </option>
-
-          <option>
-            SILVER (OTC)
-          </option>
-
-          <option>
-            US CRUDE (OTC)
-          </option>
-
-          <option>
-            BRENT CRUDE (OTC)
-          </option>
-
-        </optgroup>
-
-
-        <!-- FOREX -->
-
-        <optgroup label="LIVE FOREX REFERENCE">
-
-          <option>
-            EUR/USD
-          </option>
-
-          <option>
-            GBP/USD
-          </option>
-
-          <option>
-            USD/JPY
-          </option>
-
-          <option>
-            USD/CHF
-          </option>
-
-          <option>
-            USD/CAD
-          </option>
-
-          <option>
-            AUD/USD
-          </option>
-
-          <option>
-            NZD/USD
-          </option>
-
-          <option>
-            EUR/GBP
-          </option>
-
-          <option>
-            EUR/JPY
-          </option>
-
-          <option>
-            EUR/CHF
-          </option>
-
-          <option>
-            EUR/AUD
-          </option>
-
-          <option>
-            EUR/CAD
-          </option>
-
-          <option>
-            EUR/NZD
-          </option>
-
-          <option>
-            GBP/JPY
-          </option>
-
-          <option>
-            GBP/CHF
-          </option>
-
-          <option>
-            GBP/AUD
-          </option>
-
-          <option>
-            GBP/CAD
-          </option>
-
-          <option>
-            GBP/NZD
-          </option>
-
-          <option>
-            AUD/JPY
-          </option>
-
-          <option>
-            AUD/NZD
-          </option>
-
-          <option>
-            AUD/CAD
-          </option>
-
-          <option>
-            AUD/CHF
-          </option>
-
-          <option>
-            CAD/JPY
-          </option>
-
-          <option>
-            CAD/CHF
-          </option>
-
-          <option>
-            CAD/NZD
-          </option>
-
-          <option>
-            NZD/JPY
-          </option>
-
-          <option>
-            NZD/CAD
-          </option>
-
-          <option>
-            NZD/CHF
-          </option>
-
-        </optgroup>
-
-
-        <!-- CRYPTO -->
-
-        <optgroup label="CRYPTO">
-
-          <option>
-            BTC/USD
-          </option>
-
-          <option>
-            ETH/USD
-          </option>
-
-          <option>
-            BNB/USD
-          </option>
-
-          <option>
-            SOL/USD
-          </option>
-
-          <option>
-            XRP/USD
-          </option>
-
-          <option>
-            ADA/USD
-          </option>
-
-          <option>
-            DOGE/USD
-          </option>
-
-          <option>
-            AVAX/USD
-          </option>
-
-          <option>
-            LINK/USD
-          </option>
-
-          <option>
-            DOT/USD
-          </option>
-
-        </optgroup>
-
-
-        <!-- COMMODITIES -->
-
-        <optgroup label="COMMODITIES">
-
-          <option>
-            GOLD
-          </option>
-
-          <option>
-            SILVER
-          </option>
-
-          <option>
-            US CRUDE
-          </option>
-
-          <option>
-            BRENT CRUDE
-          </option>
-
-        </optgroup>
-
-      </select>
-
-    </div>
-
-
-    <!-- EXPIRATION -->
-
-    <div class="box">
-
-      <span class="label">
-        EXPIRATION TIME
-      </span>
-
-      <select id="expirationTime">
-
-        <optgroup label="SECONDS">
-
-          <option>
-            3 SECONDS
-          </option>
-
-          <option>
-            5 SECONDS
-          </option>
-
-          <option selected>
-            7 SECONDS
-          </option>
-
-          <option>
-            9 SECONDS
-          </option>
-
-          <option>
-            12 SECONDS
-          </option>
-
-          <option>
-            15 SECONDS
-          </option>
-
-          <option>
-            17 SECONDS
-          </option>
-
-          <option>
-            19 SECONDS
-          </option>
-
-          <option>
-            22 SECONDS
-          </option>
-
-          <option>
-            25 SECONDS
-          </option>
-
-          <option>
-            28 SECONDS
-          </option>
-
-          <option>
-            31 SECONDS
-          </option>
-
-          <option>
-            35 SECONDS
-          </option>
-
-          <option>
-            40 SECONDS
-          </option>
-
-          <option>
-            45 SECONDS
-          </option>
-
-          <option>
-            50 SECONDS
-          </option>
-
-          <option>
-            55 SECONDS
-          </option>
-
-          <option>
-            59 SECONDS
-          </option>
-
-        </optgroup>
-
-
-        <optgroup label="MINUTES">
-
-          <option>
-            1 MINUTE
-          </option>
-
-          <option>
-            2 MINUTES
-          </option>
-
-          <option>
-            3 MINUTES
-          </option>
-
-          <option>
-            4 MINUTES
-          </option>
-
-          <option>
-            5 MINUTES
-          </option>
-
-          <option>
-            6 MINUTES
-          </option>
-
-          <option>
-            7 MINUTES
-          </option>
-
-          <option>
-            8 MINUTES
-          </option>
-
-          <option>
-            9 MINUTES
-          </option>
-
-          <option>
-            10 MINUTES
-          </option>
-
-          <option>
-            11 MINUTES
-          </option>
-
-          <option>
-            12 MINUTES
-          </option>
-
-          <option>
-            13 MINUTES
-          </option>
-
-          <option>
-            14 MINUTES
-          </option>
-
-          <option>
-            15 MINUTES
-          </option>
-
-          <option>
-            16 MINUTES
-          </option>
-
-          <option>
-            17 MINUTES
-          </option>
-
-          <option>
-            18 MINUTES
-          </option>
-
-          <option>
-            19 MINUTES
-          </option>
-
-          <option>
-            20 MINUTES
-          </option>
-
-          <option>
-            21 MINUTES
-          </option>
-
-          <option>
-            22 MINUTES
-          </option>
-
-          <option>
-            23 MINUTES
-          </option>
-
-          <option>
-            24 MINUTES
-          </option>
-
-          <option>
-            25 MINUTES
-          </option>
-
-          <option>
-            26 MINUTES
-          </option>
-
-          <option>
-            27 MINUTES
-          </option>
-
-          <option>
-            28 MINUTES
-          </option>
-
-          <option>
-            29 MINUTES
-          </option>
-
-          <option>
-            30 MINUTES
-          </option>
-
-          <option>
-            35 MINUTES
-          </option>
-
-          <option>
-            40 MINUTES
-          </option>
-
-          <option>
-            45 MINUTES
-          </option>
-
-          <option>
-            50 MINUTES
-          </option>
-
-          <option>
-            55 MINUTES
-          </option>
-
-        </optgroup>
-
-
-        <optgroup label="HOUR">
-
-          <option>
-            1 HOUR
-          </option>
-
-        </optgroup>
-
-      </select>
-
-    </div>
+    </select>
 
   </div>
 
+</div>
 
-  <!-- STATUS -->
+
+<!-- STATUS -->
+
+<div
+  id="status"
+  class="status"
+>
+  Ready — select market and generate signal
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+
+  <!-- ANALYSIS -->
 
   <div
-    id="status"
-    class="status"
+    id="analyzing"
+    class="analyzing"
   >
-    Ready — select market and generate signal
-  </div>
+
+    <div class="loader">
+
+      <span
+        id="loaderText"
+        class="loader-text"
+      >
+        READY
+      </span>
+
+    </div>
 
 
-  <!-- MAIN -->
+    <div class="steps">
 
-  <div class="main">
+      <div
+        id="step1"
+        class="step"
+      >
 
+        <span>
+          Connecting to market data...
+        </span>
 
-    <!-- ANALYZING -->
-
-    <div
-      id="analyzing"
-      class="analyzing"
-    >
-
-      <div class="loader">
-
-        <span
-          id="loaderText"
-          class="loader-text"
-        >
-          READY
+        <span>
+          ○
         </span>
 
       </div>
 
 
-      <div class="steps">
+      <div
+        id="step2"
+        class="step"
+      >
 
-        <div
-          id="step1"
-          class="step"
-        >
+        <span>
+          Calculating indicators...
+        </span>
 
-          <span>
-            Connecting to market data...
-          </span>
+        <span>
+          ○
+        </span>
 
-          <span>
-            ○
-          </span>
-
-        </div>
+      </div>
 
 
-        <div
-          id="step2"
-          class="step"
-        >
+      <div
+        id="step3"
+        class="step"
+      >
 
-          <span>
-            Calculating indicators...
-          </span>
+        <span>
+          Checking confirmation...
+        </span>
 
-          <span>
-            ○
-          </span>
-
-        </div>
-
-
-        <div
-          id="step3"
-          class="step"
-        >
-
-          <span>
-            Checking confirmation...
-          </span>
-
-          <span>
-            ○
-          </span>
-
-        </div>
+        <span>
+          ○
+        </span>
 
       </div>
 
     </div>
 
+  </div>
 
-    <!-- SIGNAL CARD -->
+
+  <!-- RESULT -->
+
+  <div
+    id="signalCard"
+    class="signal-card hidden"
+  >
+
 
     <div
-      id="signalCard"
-      class="signal-card hidden"
+      id="badge"
+      class="badge wait"
     >
 
-
-      <!-- SIGNAL CIRCLE -->
-
       <div
-        id="badge"
-        class="badge wait"
+        id="pairDisplay"
+        class="pair"
       >
-
-        <div
-          id="pairDisplay"
-          class="pair"
-        >
-          EUR/USD
-        </div>
-
-
-        <div
-          id="signalDisplay"
-          class="signal wait-text"
-        >
-          WAIT
-        </div>
-
-
-        <div
-          id="expirationDisplay"
-          class="exp"
-        >
-          7 SECONDS
-        </div>
-
+        CAD/CHF
       </div>
 
-
-      <!-- METRICS -->
-
-      <div class="cards">
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Confirmation
-          </div>
-
-          <div
-            id="confidence"
-            class="metric-value"
-          >
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Market Price
-          </div>
-
-          <div
-            id="price"
-            class="metric-value"
-          >
-            --
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- INDICATORS -->
-
-      <div class="indicators">
-
-
-        <div class="indicator">
-
-          <span class="indicator-name">
-            EMA Trend
-          </span>
-
-          <span
-            id="ema"
-            class="neutral"
-          >
-            --
-          </span>
-
-        </div>
-
-
-        <div class="indicator">
-
-          <span class="indicator-name">
-            RSI (14)
-          </span>
-
-          <span
-            id="rsi"
-            class="neutral"
-          >
-            --
-          </span>
-
-        </div>
-
-
-        <div class="indicator">
-
-          <span class="indicator-name">
-            MACD
-          </span>
-
-          <span
-            id="macd"
-            class="neutral"
-          >
-            --
-          </span>
-
-        </div>
-
-
-        <div class="indicator">
-
-          <span class="indicator-name">
-            Momentum
-          </span>
-
-          <span
-            id="momentum"
-            class="neutral"
-          >
-            --
-          </span>
-
-        </div>
-
-
-        <div class="indicator">
-
-          <span class="indicator-name">
-            Data Source
-          </span>
-
-          <span
-            id="source"
-            class="neutral"
-          >
-            --
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- WARNING -->
 
       <div
-        id="warning"
-        class="warning hidden"
-      ></div>
-
-
-      <!-- REASONS -->
-
-      <div
-        id="reason"
-        class="reason"
+        id="signalDisplay"
+        class="signal wait-text"
       >
-        Waiting for analysis
+        WAIT
+      </div>
+
+
+      <div
+        id="expirationDisplay"
+        class="exp"
+      >
+        7 SECONDS
       </div>
 
     </div>
 
+
+    <!-- METRICS -->
+
+    <div class="cards">
+
+      <div class="metric">
+
+        <div class="metric-title">
+          Confidence
+        </div>
+
+        <div
+          id="confidence"
+          class="metric-value"
+        >
+          --
+        </div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-title">
+          Market Price
+        </div>
+
+        <div
+          id="price"
+          class="metric-value"
+        >
+          --
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- INDICATORS -->
+
+    <div class="indicators">
+
+
+      <div class="indicator">
+
+        <span class="indicator-name">
+          EMA Trend
+        </span>
+
+        <span
+          id="ema"
+          class="neutral"
+        >
+          --
+        </span>
+
+      </div>
+
+
+      <div class="indicator">
+
+        <span class="indicator-name">
+          RSI (14)
+        </span>
+
+        <span
+          id="rsi"
+          class="neutral"
+        >
+          --
+        </span>
+
+      </div>
+
+
+      <div class="indicator">
+
+        <span class="indicator-name">
+          MACD
+        </span>
+
+        <span
+          id="macd"
+          class="neutral"
+        >
+          --
+        </span>
+
+      </div>
+
+
+      <div class="indicator">
+
+        <span class="indicator-name">
+          Momentum
+        </span>
+
+        <span
+          id="momentum"
+          class="neutral"
+        >
+          --
+        </span>
+
+      </div>
+
+
+      <div class="indicator">
+
+        <span class="indicator-name">
+          Data Source
+        </span>
+
+        <span
+          id="source"
+          class="neutral"
+        >
+          --
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- WARNING -->
+
+    <div
+      id="warning"
+      class="warning hidden"
+    ></div>
+
+
+    <!-- REASON -->
+
+    <div
+      id="reason"
+      class="reason"
+    >
+      Waiting for analysis
+    </div>
+
   </div>
 
+</div>
 
-  <!-- GENERATE BUTTON -->
+
+<!-- BUTTON -->
+
+<button
+  id="generate"
+  class="action"
+  onclick="generateSignal()"
+>
+  ANALYZE & GENERATE SIGNAL
+</button>
+
+
+<!-- NAV -->
+
+<div class="nav">
 
   <button
-    id="generate"
-    class="action"
-    onclick="generateSignal()"
+    class="active"
+    onclick="showLive()"
   >
-    ANALYZE & GENERATE SIGNAL
+    LIVE SIGNAL
   </button>
 
+  <button
+    onclick="showHistory()"
+  >
+    HISTORY
+  </button>
 
-  <!-- NAVIGATION -->
+  <button
+    onclick="showSettings()"
+  >
+    SETTINGS
+  </button>
 
-  <div class="nav">
-
-    <button
-      class="active"
-      onclick="showLive()"
-    >
-      LIVE SIGNAL
-    </button>
-
-    <button
-      onclick="showHistory()"
-    >
-      HISTORY
-    </button>
-
-    <button
-      onclick="showSettings()"
-    >
-      SETTINGS
-    </button>
-
-  </div>
+</div>
 
 </div>
 
@@ -1558,8 +1165,10 @@ optgroup {
 <script>
 
 /* =========================================================
-   SEEKER BOT FRONTEND ENGINE
+   SEEKER BOT V5.1
+   SIGNAL DISPLAY FIX
    ========================================================= */
+
 
 let busy = false;
 
@@ -1568,45 +1177,50 @@ let history = [];
 let lastResult = null;
 
 
-/* ---------------------------------------------------------
-   SHORTCUT
-   --------------------------------------------------------- */
+/* =========================================================
+   ELEMENT
+   ========================================================= */
 
-function $(id) {
+function $(id){
+
   return document.getElementById(id);
+
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    SLEEP
-   --------------------------------------------------------- */
+   ========================================================= */
 
-function sleep(ms) {
+function sleep(ms){
 
   return new Promise(
-    resolve => setTimeout(resolve, ms)
+    resolve => setTimeout(resolve,ms)
   );
 
 }
 
 
-/* ---------------------------------------------------------
-   STEP STATUS
-   --------------------------------------------------------- */
+/* =========================================================
+   SET STEP
+   ========================================================= */
 
-function setStep(number, state) {
+function setStep(number,state){
 
   const element =
-    $("step" + number);
+    $("step"+number);
 
-  if (!element) return;
+  if(!element){
+    return;
+  }
 
   element.classList.remove(
     "done",
     "active"
   );
 
-  if (state === "done") {
+
+  if(state === "done"){
 
     element.classList.add("done");
 
@@ -1615,7 +1229,7 @@ function setStep(number, state) {
 
   }
 
-  else if (state === "active") {
+  else if(state === "active"){
 
     element.classList.add("active");
 
@@ -1624,7 +1238,7 @@ function setStep(number, state) {
 
   }
 
-  else {
+  else{
 
     element.lastElementChild.innerText =
       "○";
@@ -1634,15 +1248,15 @@ function setStep(number, state) {
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    RESET STEPS
-   --------------------------------------------------------- */
+   ========================================================= */
 
-function resetSteps() {
+function resetSteps(){
 
-  setStep(1, null);
-  setStep(2, null);
-  setStep(3, null);
+  setStep(1,null);
+  setStep(2,null);
+  setStep(3,null);
 
   $("loaderText").innerText =
     "ANALYZING";
@@ -1650,17 +1264,19 @@ function resetSteps() {
 }
 
 
-/* ---------------------------------------------------------
-   PRICE FORMAT
-   --------------------------------------------------------- */
+/* =========================================================
+   PRICE
+   ========================================================= */
 
-function formatPrice(value) {
+function formatPrice(value){
 
-  if (
+  if(
     value === null ||
     value === undefined ||
-    !Number.isFinite(Number(value))
-  ) {
+    !Number.isFinite(
+      Number(value)
+    )
+  ){
 
     return "--";
 
@@ -1669,81 +1285,100 @@ function formatPrice(value) {
   const number =
     Number(value);
 
-  if (number >= 1000) {
+
+  if(number >= 1000){
 
     return number.toLocaleString(
       undefined,
       {
-        maximumFractionDigits: 2
+        maximumFractionDigits:2
       }
     );
 
   }
 
-  if (number >= 10) {
+
+  if(number >= 10){
 
     return number.toFixed(3);
 
   }
 
-  if (number >= 1) {
+
+  if(number >= 1){
 
     return number.toFixed(5);
 
   }
+
 
   return number.toFixed(8);
 
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    DIRECTION CLASS
-   --------------------------------------------------------- */
+   ========================================================= */
 
-function directionClass(value) {
+function directionClass(value){
 
   const text =
     String(value || "")
       .toUpperCase();
 
-  if (
-    text.includes("BULL")
-  ) {
+
+  if(
+    text.includes("BULL") ||
+    text.includes("BUY") ||
+    text.includes("UP") ||
+    text.includes("CALL") ||
+    text.includes("POSITIVE")
+  ){
 
     return "bull";
 
   }
 
-  if (
-    text.includes("BEAR")
-  ) {
+
+  if(
+    text.includes("BEAR") ||
+    text.includes("SELL") ||
+    text.includes("DOWN") ||
+    text.includes("PUT") ||
+    text.includes("NEGATIVE")
+  ){
 
     return "bear";
 
   }
+
 
   return "neutral";
 
 }
 
 
-/* ---------------------------------------------------------
-   RENDER DIRECTION
-   --------------------------------------------------------- */
+/* =========================================================
+   RENDER INDICATOR
+   ========================================================= */
 
 function renderDirection(
   id,
   value
-) {
+){
 
   const element =
     $(id);
 
-  if (!element) return;
+  if(!element){
+    return;
+  }
+
 
   element.innerText =
     value || "--";
+
 
   element.className =
     directionClass(value);
@@ -1751,64 +1386,191 @@ function renderDirection(
 }
 
 
-/* ---------------------------------------------------------
-   RESET SIGNAL DISPLAY
-   --------------------------------------------------------- */
+/* =========================================================
+   NORMALIZE SIGNAL
+   =========================================================
+   
+   THIS IS THE IMPORTANT FIX.
 
-function resetSignalDisplay() {
+   Backend may return:
 
-  $("badge").className =
-    "badge wait";
+   BUY
+   SELL
+   CALL
+   PUT
+   UP
+   DOWN
 
-  $("signalDisplay").className =
-    "signal wait-text";
+   The old HTML only checked CALL/PUT.
+   ========================================================= */
 
-  $("signalDisplay").innerText =
-    "WAIT";
+function normalizeSignal(data){
 
-  $("confidence").innerText =
-    "--";
+  const possibleValues = [
 
-  $("price").innerText =
-    "--";
+    data?.signal,
+    data?.action,
+    data?.recommendation,
+    data?.direction,
+    data?.trade,
 
-  $("ema").innerText =
-    "--";
+    data?.result,
+    data?.prediction
 
-  $("rsi").innerText =
-    "--";
+  ];
 
-  $("macd").innerText =
-    "--";
 
-  $("momentum").innerText =
-    "--";
+  for(
+    const raw of possibleValues
+  ){
 
-  $("source").innerText =
-    "--";
+    if(
+      raw === null ||
+      raw === undefined
+    ){
+      continue;
+    }
 
-  $("reason").innerText =
-    "Waiting for analysis";
 
-  $("warning").classList.add(
-    "hidden"
-  );
+    const text =
+      String(raw)
+        .trim()
+        .toUpperCase();
+
+
+    if(
+      text === "BUY" ||
+      text === "CALL" ||
+      text === "UP" ||
+      text === "LONG" ||
+      text === "BULLISH" ||
+      text === "BULL"
+    ){
+
+      return "BUY";
+
+    }
+
+
+    if(
+      text === "SELL" ||
+      text === "PUT" ||
+      text === "DOWN" ||
+      text === "SHORT" ||
+      text === "BEARISH" ||
+      text === "BEAR"
+    ){
+
+      return "SELL";
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     IF BACKEND RETURNS A NUMERIC SCORE
+     ------------------------------------------------------- */
+
+  const score =
+    Number(
+      data?.score ??
+      data?.signal_score ??
+      data?.net_score
+    );
+
+
+  if(
+    Number.isFinite(score)
+  ){
+
+    if(score > 0){
+      return "BUY";
+    }
+
+    if(score < 0){
+      return "SELL";
+    }
+
+  }
+
+
+  return "WAIT";
 
 }
 
 
-/* ---------------------------------------------------------
-   RENDER SIGNAL
-   --------------------------------------------------------- */
+/* =========================================================
+   RESET SIGNAL
+   ========================================================= */
 
-function renderResult(data) {
+function resetSignalDisplay(){
+
+  $("badge").className =
+    "badge wait";
+
+
+  $("signalDisplay").className =
+    "signal wait-text";
+
+
+  $("signalDisplay").innerText =
+    "WAIT";
+
+
+  $("confidence").innerText =
+    "--";
+
+
+  $("price").innerText =
+    "--";
+
+
+  $("ema").innerText =
+    "--";
+
+
+  $("rsi").innerText =
+    "--";
+
+
+  $("macd").innerText =
+    "--";
+
+
+  $("momentum").innerText =
+    "--";
+
+
+  $("source").innerText =
+    "--";
+
+
+  $("reason").innerText =
+    "Waiting for analysis";
+
+
+  $("warning")
+    .classList
+    .add("hidden");
+
+}
+
+
+/* =========================================================
+   RENDER RESULT
+   ========================================================= */
+
+function renderResult(data){
 
   lastResult =
     data;
 
+
   $("analyzing")
     .classList
     .add("hidden");
+
 
   $("signalCard")
     .classList
@@ -1816,149 +1578,267 @@ function renderResult(data) {
 
 
   $("pairDisplay").innerText =
-    data.pair;
+    data.pair ||
+    $("assetPair").value;
 
 
   $("expirationDisplay").innerText =
-    data.expiration;
+    data.expiration ||
+    $("expirationTime").value;
 
 
-  $("confidence").innerText =
-    data.confidence +
-    "/100";
+  /* -------------------------------------------------------
+     NORMALIZE SIGNAL
+     ------------------------------------------------------- */
 
+  const finalSignal =
+    normalizeSignal(data);
+
+
+  /* -------------------------------------------------------
+     CONFIDENCE
+     ------------------------------------------------------- */
+
+  let confidence =
+    data.confidence ??
+    data.confidence_score ??
+    data.strength ??
+    data.probability;
+
+
+  if(
+    confidence !== undefined &&
+    confidence !== null &&
+    confidence !== ""
+  ){
+
+    const numericConfidence =
+      Number(confidence);
+
+
+    if(
+      Number.isFinite(
+        numericConfidence
+      )
+    ){
+
+      $("confidence").innerText =
+        Math.round(
+          numericConfidence
+        ) + "/100";
+
+    }
+
+    else{
+
+      $("confidence").innerText =
+        String(confidence);
+
+    }
+
+  }
+
+  else{
+
+    $("confidence").innerText =
+      "--";
+
+  }
+
+
+  /* -------------------------------------------------------
+     PRICE
+     ------------------------------------------------------- */
 
   $("price").innerText =
     formatPrice(
-      data.price
+      data.price ??
+      data.current_price ??
+      data.last_price
     );
+
+
+  /* -------------------------------------------------------
+     INDICATORS
+     ------------------------------------------------------- */
+
+  const directions =
+    data.direction ||
+    data.directions ||
+    data.indicators ||
+    {};
 
 
   renderDirection(
     "ema",
-    data.directions.ema
+    directions.ema ??
+    directions.EMA ??
+    data.ema_trend ??
+    data.ema
   );
 
 
   renderDirection(
     "rsi",
-    data.directions.rsi
+    directions.rsi ??
+    directions.RSI ??
+    data.rsi_signal ??
+    data.rsi
   );
 
 
   renderDirection(
     "macd",
-    data.directions.macd
+    directions.macd ??
+    directions.MACD ??
+    data.macd_signal ??
+    data.macd
   );
 
 
   renderDirection(
     "momentum",
-    data.directions.momentum
+    directions.momentum ??
+    directions.Momentum ??
+    data.momentum_signal ??
+    data.momentum
   );
 
 
   $("source").innerText =
     data.source_type ||
-    "--";
+    data.source ||
+    "LIVE DATA";
 
 
-  /* REASON */
+  /* -------------------------------------------------------
+     REASONS
+     ------------------------------------------------------- */
 
-  if (
-    data.reasons &&
-    data.reasons.length
-  ) {
+  let reasons =
+    data.reasons;
+
+
+  if(
+    Array.isArray(reasons)
+  ){
 
     $("reason").innerText =
-      data.reasons.join(
-        " • "
-      );
+      reasons.join(" • ");
 
   }
 
-  else {
+  else if(
+    typeof reasons === "string"
+  ){
 
     $("reason").innerText =
-      "Indicators are not sufficiently aligned.";
+      reasons;
+
+  }
+
+  else if(
+    data.reason
+  ){
+
+    $("reason").innerText =
+      data.reason;
+
+  }
+
+  else{
+
+    $("reason").innerText =
+      finalSignal === "BUY"
+        ? "Bullish confirmation detected."
+        : finalSignal === "SELL"
+          ? "Bearish confirmation detected."
+          : "No directional signal returned.";
 
   }
 
 
-  /* BADGE */
+  /* =======================================================
+     BUY
+     ======================================================= */
 
-  const badge =
-    $("badge");
+  if(
+    finalSignal === "BUY"
+  ){
 
-  const signal =
-    $("signalDisplay");
-
-
-  badge.className =
-    "badge";
+    $("badge").className =
+      "badge buy";
 
 
-  if (
-    data.signal === "CALL"
-  ) {
-
-    badge.classList.add(
-      "buy"
-    );
-
-    signal.className =
+    $("signalDisplay").className =
       "signal buy-text";
 
-    signal.innerText =
-      "STRONG BUY";
+
+    $("signalDisplay").innerText =
+      "BUY";
 
   }
 
-  else if (
-    data.signal === "PUT"
-  ) {
 
-    badge.classList.add(
-      "sell"
-    );
+  /* =======================================================
+     SELL
+     ======================================================= */
 
-    signal.className =
+  else if(
+    finalSignal === "SELL"
+  ){
+
+    $("badge").className =
+      "badge sell";
+
+
+    $("signalDisplay").className =
       "signal sell-text";
 
-    signal.innerText =
-      "STRONG SELL";
+
+    $("signalDisplay").innerText =
+      "SELL";
 
   }
 
-  else {
 
-    badge.classList.add(
-      "wait"
-    );
+  /* =======================================================
+     WAIT
+     ======================================================= */
 
-    signal.className =
+  else{
+
+    $("badge").className =
+      "badge wait";
+
+
+    $("signalDisplay").className =
       "signal wait-text";
 
-    signal.innerText =
+
+    $("signalDisplay").innerText =
       "WAIT";
 
   }
 
 
-  /* WARNING */
+  /* -------------------------------------------------------
+     WARNING
+     ------------------------------------------------------- */
 
-  if (data.warning) {
+  if(data.warning){
 
     $("warning")
       .classList
       .remove("hidden");
+
 
     $("warning").innerText =
       data.warning;
 
   }
 
-  else {
+  else{
 
     $("warning")
       .classList
@@ -1969,13 +1849,13 @@ function renderResult(data) {
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    GENERATE SIGNAL
-   --------------------------------------------------------- */
+   ========================================================= */
 
-async function generateSignal() {
+async function generateSignal(){
 
-  if (busy) {
+  if(busy){
 
     return;
 
@@ -2007,10 +1887,9 @@ async function generateSignal() {
     .remove("hidden");
 
 
-  resetSteps();
-
-
   resetSignalDisplay();
+
+  resetSteps();
 
 
   const pair =
@@ -2025,10 +1904,11 @@ async function generateSignal() {
     "Connecting to market data...";
 
 
-  try {
+  try{
 
-
-    /* STEP 1 */
+    /* =====================================================
+       STEP 1
+       ===================================================== */
 
     setStep(
       1,
@@ -2036,8 +1916,13 @@ async function generateSignal() {
     );
 
 
-    await sleep(350);
+    await sleep(300);
 
+
+    /*
+       IMPORTANT:
+       Keep the endpoint compatible with the server.
+    */
 
     const url =
       "/api/signal?pair=" +
@@ -2050,9 +1935,10 @@ async function generateSignal() {
       await fetch(
         url,
         {
-          method: "GET",
-          cache: "no-store",
-          headers: {
+          method:"GET",
+          cache:"no-store",
+
+          headers:{
             "Accept":
               "application/json"
           }
@@ -2060,18 +1946,45 @@ async function generateSignal() {
       );
 
 
-    const data =
-      await response.json();
+    let data;
 
 
-    if (
-      !response.ok ||
-      !data.ok
-    ) {
+    try{
+
+      data =
+        await response.json();
+
+    }
+
+    catch(jsonError){
+
+      throw new Error(
+        "Server returned an invalid response."
+      );
+
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.detail ||
+        data?.error ||
+        "Market data request failed."
+      );
+
+    }
+
+
+    if(
+      data &&
+      data.ok === false
+    ){
 
       throw new Error(
         data.detail ||
-        "Market data unavailable."
+        data.error ||
+        "Signal engine returned an error."
       );
 
     }
@@ -2083,7 +1996,9 @@ async function generateSignal() {
     );
 
 
-    /* STEP 2 */
+    /* =====================================================
+       STEP 2
+       ===================================================== */
 
     setStep(
       2,
@@ -2092,7 +2007,7 @@ async function generateSignal() {
 
 
     $("status").innerText =
-      "Calculating EMA, RSI, MACD and momentum...";
+      "Calculating market indicators...";
 
 
     await sleep(350);
@@ -2104,7 +2019,9 @@ async function generateSignal() {
     );
 
 
-    /* STEP 3 */
+    /* =====================================================
+       STEP 3
+       ===================================================== */
 
     setStep(
       3,
@@ -2113,7 +2030,7 @@ async function generateSignal() {
 
 
     $("status").innerText =
-      "Checking signal confirmation...";
+      "Checking BUY / SELL confirmation...";
 
 
     await sleep(350);
@@ -2128,41 +2045,20 @@ async function generateSignal() {
     await sleep(200);
 
 
-    /* RESULT */
+    /* =====================================================
+       DISPLAY RESULT
+       ===================================================== */
 
-    renderResult({
-
-      pair:
-        data.pair,
-
-      expiration:
-        data.expiration,
-
-      signal:
-        data.signal,
-
-      confidence:
-        data.confidence,
-
-      price:
-        data.price,
-
-      source_type:
-        data.source_type,
-
-      warning:
-        data.warning,
-
-      directions:
-        data.direction || {},
-
-      reasons:
-        data.reasons || []
-
-    });
+    renderResult(data);
 
 
-    /* HISTORY */
+    /* =====================================================
+       SAVE HISTORY
+       ===================================================== */
+
+    const finalSignal =
+      normalizeSignal(data);
+
 
     history.unshift({
 
@@ -2171,26 +2067,31 @@ async function generateSignal() {
           .toLocaleTimeString(),
 
       pair:
-        data.pair,
+        data.pair ||
+        pair,
 
       expiration:
-        data.expiration,
+        data.expiration ||
+        expiration,
 
       signal:
-        data.signal,
+        finalSignal,
 
       confidence:
-        data.confidence,
+        data.confidence ??
+        data.strength ??
+        "--",
 
       price:
-        data.price
+        data.price ??
+        null
 
     });
 
 
-    if (
+    if(
       history.length > 50
-    ) {
+    ){
 
       history =
         history.slice(
@@ -2201,99 +2102,52 @@ async function generateSignal() {
     }
 
 
-    $("status").innerText =
-      (
-        data.source_type ||
-        "MARKET DATA"
-      ) +
-      " • Updated " +
-      new Date()
-        .toLocaleTimeString();
+    /* =====================================================
+       STATUS
+       ===================================================== */
+
+    if(
+      finalSignal === "BUY"
+    ){
+
+      $("status").innerText =
+        "BUY signal generated • " +
+        new Date()
+          .toLocaleTimeString();
+
+    }
+
+    else if(
+      finalSignal === "SELL"
+    ){
+
+      $("status").innerText =
+        "SELL signal generated • " +
+        new Date()
+          .toLocaleTimeString();
+
+    }
+
+    else{
+
+      $("status").innerText =
+        "Analysis completed • No directional result returned";
+
+    }
 
 
   }
 
-  catch (error) {
-
+  catch(error){
 
     console.error(
-      "SEEKER BOT ERROR:",
+      "SEEKER BOT:",
       error
     );
 
 
     $("status").innerText =
-      "Market data unavailable";
-
-
-    $("pairDisplay").innerText =
-      pair;
-
-
-    $("expirationDisplay").innerText =
-      expiration;
-
-
-    $("confidence").innerText =
-      "--";
-
-
-    $("price").innerText =
-      "--";
-
-
-    renderDirection(
-      "ema",
-      "UNAVAILABLE"
-    );
-
-
-    renderDirection(
-      "rsi",
-      "UNAVAILABLE"
-    );
-
-
-    renderDirection(
-      "macd",
-      "UNAVAILABLE"
-    );
-
-
-    renderDirection(
-      "momentum",
-      "UNAVAILABLE"
-    );
-
-
-    $("source").innerText =
-      "ERROR";
-
-
-    $("reason").innerText =
-      error.message ||
-      "Unable to retrieve market data.";
-
-
-    $("badge").className =
-      "badge wait";
-
-
-    $("signalDisplay").className =
-      "signal wait-text";
-
-
-    $("signalDisplay").innerText =
-      "WAIT";
-
-
-    $("warning")
-      .classList
-      .remove("hidden");
-
-
-    $("warning").innerText =
-      "The engine did not receive valid market data. It will not create a random BUY/SELL signal.";
+      "Signal engine error";
 
 
     $("analyzing")
@@ -2305,10 +2159,48 @@ async function generateSignal() {
       .classList
       .remove("hidden");
 
+
+    $("pairDisplay").innerText =
+      pair;
+
+
+    $("expirationDisplay").innerText =
+      expiration;
+
+
+    $("badge").className =
+      "badge wait";
+
+
+    $("signalDisplay").className =
+      "signal wait-text";
+
+
+    $("signalDisplay").innerText =
+      "ERROR";
+
+
+    $("source").innerText =
+      "NO DATA";
+
+
+    $("reason").innerText =
+      error.message ||
+      "Unable to connect to signal server.";
+
+
+    $("warning")
+      .classList
+      .remove("hidden");
+
+
+    $("warning").innerText =
+      "The server did not return a valid market signal. Check that server.py is running and that /api/signal is available.";
+
   }
 
 
-  finally {
+  finally{
 
     busy = false;
 
@@ -2323,27 +2215,27 @@ async function generateSignal() {
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    LIVE
-   --------------------------------------------------------- */
+   ========================================================= */
 
-function showLive() {
+function showLive(){
 
   $("status").innerText =
-    "SEEKER BOT ready";
+    "SEEKER BOT online • Ready for analysis";
 
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    HISTORY
-   --------------------------------------------------------- */
+   ========================================================= */
 
-function showHistory() {
+function showHistory(){
 
-  if (
-    !history.length
-  ) {
+  if(
+    history.length === 0
+  ){
 
     $("status").innerText =
       "No signal history yet.";
@@ -2363,79 +2255,95 @@ function showHistory() {
     " • " +
     latest.pair +
     " • " +
-    latest.signal +
-    " • " +
-    latest.confidence +
-    "/100";
+    latest.signal;
 
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    SETTINGS
-   --------------------------------------------------------- */
+   ========================================================= */
 
-function showSettings() {
+function showSettings(){
 
   $("status").innerText =
-    "EMA + RSI + MACD + Momentum confirmation engine";
+    "EMA + RSI + MACD + Momentum engine";
 
 }
 
 
-/* ---------------------------------------------------------
-   HEALTH CHECK
-   --------------------------------------------------------- */
+/* =========================================================
+   SERVER CHECK
+   ========================================================= */
 
-async function checkServer() {
+async function checkServer(){
 
-  try {
+  try{
 
     const response =
       await fetch(
         "/api/health",
         {
-          method: "GET",
-          cache: "no-store"
+          method:"GET",
+          cache:"no-store"
         }
       );
 
 
-    if (
-      response.ok
-    ) {
+    if(response.ok){
 
       $("status").innerText =
         "SEEKER BOT online • Market engine ready";
 
     }
 
-    else {
+    else{
 
       $("status").innerText =
-        "Backend returned an error.";
+        "Backend connection error";
 
     }
 
   }
 
-  catch (error) {
+  catch(error){
 
     $("status").innerText =
-      "Backend connection unavailable.";
+      "Backend not connected";
 
   }
 
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
+   BUTTON KEYBOARD SUPPORT
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key === "Enter" &&
+      !busy
+    ){
+
+      generateSignal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    START
-   --------------------------------------------------------- */
+   ========================================================= */
 
 window.addEventListener(
   "load",
-  function() {
+  function(){
 
     checkServer();
 
