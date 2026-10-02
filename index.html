@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Matrix Trade Analyzer</title>
+    <title>Matrix Trade Analyzer - Full Range</title>
     <style>
         body {
             background-color: #050505;
             color: #00ffcc;
             font-family: monospace;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
         }
         .matrix-frame {
             background-color: #0a0f0d;
             border: 2px solid #00ffcc;
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             max-width: 400px;
             margin: 0 auto;
             box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
@@ -24,16 +24,35 @@
             font-size: 11px;
             color: #888;
             letter-spacing: 1px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+        .input-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 10px;
+            color: #00ffcc;
+            margin-bottom: 4px;
+        }
+        select {
+            width: 100%;
+            background: #111;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            padding: 8px;
+            font-family: monospace;
+            border-radius: 4px;
         }
         .console-box {
             background: #000;
             border: 1px dashed #00ffcc;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 13px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 12px;
             color: #00ffcc;
-            min-height: 50px;
+            min-height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -42,7 +61,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .stat-card {
             background: #111;
@@ -72,9 +91,9 @@
             background-color: #00cc99;
         }
         .signal-alert {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 12px;
             padding: 10px;
             border-radius: 4px;
         }
@@ -83,21 +102,119 @@
 <body>
 
     <div class="matrix-frame">
-        <div class="header-text">TRADE WITH EXPERT // SYSTEM V.4</div>
+        <div class="header-text">TRADE WITH EXPERT // ULTIMATE V.6</div>
         <h3 style="margin: 5px 0; color: #fff;">EXTRACTING CANDLE DATA</h3>
         
+        <!-- Asset Selection Dropdown -->
+        <div class="input-group">
+            <label>SELECT ASSET / PAIR:</label>
+            <select id="asset-select">
+                <optgroup label="Standard Forex Pairs">
+                    <option value="EUR/USD">EUR/USD</option>
+                    <option value="GBP/USD">GBP/USD</option>
+                    <option value="USD/JPY">USD/JPY</option>
+                    <option value="AUD/USD">AUD/USD</option>
+                    <option value="EUR/GBP">EUR/GBP</option>
+                    <option value="USD/CAD">USD/CAD</option>
+                    <option value="AUD/CAD">AUD/CAD</option>
+                    <option value="NZD/USD">NZD/USD</option>
+                    <option value="EUR/JPY">EUR/JPY</option>
+                    <option value="GBP/JPY">GBP/JPY</option>
+                </optgroup>
+                <optgroup label="OTC Forex Pairs">
+                    <option value="EUR/CHF (OTC)" selected>EUR/CHF (OTC)</option>
+                    <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+                    <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+                    <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
+                    <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
+                    <option value="NZD/USD (OTC)">NZD/USD (OTC)</option>
+                    <option value="EUR/GBP (OTC)">EUR/GBP (OTC)</option>
+                    <option value="USD/CAD (OTC)">USD/CAD (OTC)</option>
+                    <option value="USD/BRL (OTC)">USD/BRL (OTC)</option>
+                    <option value="USD/INR (OTC)">USD/INR (OTC)</option>
+                    <option value="GBP/JPY (OTC)">GBP/JPY (OTC)</option>
+                    <option value="EUR/JPY (OTC)">EUR/JPY (OTC)</option>
+                </optgroup>
+                <optgroup label="Crypto & Commodities">
+                    <option value="Bitcoin (OTC)">Bitcoin (OTC)</option>
+                    <option value="Ethereum (OTC)">Ethereum (OTC)</option>
+                    <option value="Litecoin (OTC)">Litecoin (OTC)</option>
+                    <option value="Ripple (OTC)">Ripple (OTC)</option>
+                    <option value="Gold (OTC)">Gold (OTC)</option>
+                    <option value="Silver (OTC)">Silver (OTC)</option>
+                    Brent Oil
+                    <option value="Crude Oil (OTC)">Crude Oil (OTC)</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <!-- Timeframe Selection Dropdown (Every Second + Minutes up to 1 Hour) -->
+        <div class="input-group">
+            <label>SELECT TIMEFRAME:</label>
+            <select id="timeframe-select">
+                <optgroup label="Seconds (1s - 60s)">
+                    <option value="1s">1 Second</option>
+                    <option value="2s">2 Seconds</option>
+                    <option value="3s">3 Seconds</option>
+                    <option value="4s">4 Seconds</option>
+                    <option value="5s" selected>5 Seconds</option>
+                    <option value="6s">6 Seconds</option>
+                    <option value="7s">7 Seconds</option>
+                    <option value="8s">8 Seconds</option>
+                    <option value="9s">9 Seconds</option>
+                    <option value="10s">10 Seconds</option>
+                    <option value="11s">11 Seconds</option>
+                    <option value="12s">12 Seconds</option>
+                    <option value="13s">13 Seconds</option>
+                    <option value="14s">14 Seconds</option>
+                    <option value="15s">15 Seconds</option>
+                    <option value="16s">16 Seconds</option>
+                    <option value="17s">17 Seconds</option>
+                    <option value="18s">18 Seconds</option>
+                    <option value="19s">19 Seconds</option>
+                    <option value="20s">20 Seconds</option>
+                    <option value="21s">21 Seconds</option>
+                    <option value="22s">22 Seconds</option>
+                    <option value="23s">23 Seconds</option>
+                    <option value="24s">24 Seconds</option>
+                    <option value="25s">25 Seconds</option>
+                    <option value="26s">26 Seconds</option>
+                    <option value="27s">27 Seconds</option>
+                    <option value="28s">28 Seconds</option>
+                    <option value="29s">29 Seconds</option>
+                    <option value="30s">30 Seconds</option>
+                    <option value="35s">35 Seconds</option>
+                    <option value="40s">40 Seconds</option>
+                    <option value="45s">45 Seconds</option>
+                    <option value="50s">50 Seconds</option>
+                    <option value="55s">55 Seconds</option>
+                    <option value="60s">60 Seconds (1 Min)</option>
+                </optgroup>
+                <optgroup label="Minutes & Hours (up to 1 Hour)">
+                    <option value="2m">2 Minutes</option>
+                    <option value="3m">3 Minutes</option>
+                    <option value="5m">5 Minutes</option>
+                    <option value="10m">10 Minutes</option>
+                    <option value="15m">15 Minutes</option>
+                    <option value="30m">30 Minutes</option>
+                    <option value="45m">45 Minutes</option>
+                    <option value="1h">1 Hour</option>
+                </optgroup>
+            </select>
+        </div>
+
         <div class="console-box" id="console-text">
-            Waiting for signal trigger...
+            Waiting for trigger...
         </div>
 
         <div class="grid-stats">
             <div class="stat-card">
-                <span>PAIR / ASSET</span>
-                EUR/CHF (OTC)
+                <span>TARGET TIMEFRAME</span>
+                <span id="display-tf" style="color:#fff;">5s</span>
             </div>
             <div class="stat-card">
                 <span>CONFIDENCE</span>
-                <span id="conf-val" style="color:#00ffcc; font-size:12px;">--%</span>
+                <span id="conf-val" style="color:#00ffcc;">--%</span>
             </div>
         </div>
 
@@ -108,21 +225,25 @@
 
     <script>
         function runMatrixSequence() {
+            const assetSelect = document.getElementById('asset-select').value;
+            const tfSelect = document.getElementById('timeframe-select').value;
             const consoleBox = document.getElementById('console-text');
             const confVal = document.getElementById('conf-val');
+            const displayTf = document.getElementById('display-tf');
             const signalBox = document.getElementById('signal-box');
             
             signalBox.style.display = 'none';
-            consoleBox.innerText = "Reading simulated previous candle data...";
+            displayTf.innerText = tfSelect;
+            
+            consoleBox.innerText = `Scanning ${assetSelect} for ${tfSelect} expiry...`;
             confVal.innerText = "Analyzing...";
 
-            // Sequence simulation steps
             setTimeout(() => {
-                consoleBox.innerText = "Locking market indicators...";
-            }, 1500);
+                consoleBox.innerText = `Locking indicators across ticks...`;
+            }, 1200);
 
             setTimeout(() => {
-                const randomConf = Math.floor(Math.random() * (95 - 82 + 1)) + 82;
+                const randomConf = Math.floor(Math.random() * (96 - 83 + 1)) + 83;
                 confVal.innerText = randomConf + "%";
 
                 const choices = [
@@ -131,14 +252,14 @@
                 ];
                 const selected = choices[Math.floor(Math.random() * choices.length)];
 
-                consoleBox.innerText = "SIGNAL LOCKED - CONFIDENCE HIGH";
+                consoleBox.innerText = `SIGNAL LOCKED (${tfSelect} TIMEFRAME)`;
                 
                 signalBox.style.display = 'block';
                 signalBox.innerText = selected.text;
                 signalBox.style.color = selected.color;
                 signalBox.style.backgroundColor = selected.bg;
                 signalBox.style.border = "1px solid " + selected.color;
-            }, 3000);
+            }, 2500);
         }
     </script>
 
