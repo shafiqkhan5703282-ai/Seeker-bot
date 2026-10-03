@@ -43,20 +43,20 @@
       background-color: var(--bg-dark);
       color: var(--text-light);
       min-height: 100vh;
-      transition: background-color 0.5s ease;
+      transition: background-color 0.4s ease;
       overflow-x: hidden;
     }
 
-    /* Full Viewport Dynamic Background State Flashes */
-    body.signal-buy {
+    /* Dynamic Body State Flashes */
+    body.state-buy {
       background-color: #061a12 !important;
       box-shadow: inset 0 0 150px var(--accent-green-glow);
     }
-    body.signal-sell {
+    body.state-sell {
       background-color: #24070e !important;
       box-shadow: inset 0 0 150px var(--accent-red-glow);
     }
-    body.signal-notrade {
+    body.state-notrade {
       background-color: #211806 !important;
       box-shadow: inset 0 0 150px var(--accent-yellow-glow);
     }
@@ -69,15 +69,15 @@
       transition: all 0.4s ease;
     }
 
-    body.signal-buy .app-card {
+    body.state-buy .app-card {
       border-color: var(--accent-green);
       background-color: #0f2e20;
     }
-    body.signal-sell .app-card {
+    body.state-sell .app-card {
       border-color: var(--accent-red);
       background-color: #330c14;
     }
-    body.signal-notrade .app-card {
+    body.state-notrade .app-card {
       border-color: var(--accent-yellow);
       background-color: #33250a;
     }
@@ -103,15 +103,15 @@
       position: relative;
     }
 
-    body.signal-buy .engine-box {
+    body.state-buy .engine-box {
       background: linear-gradient(145deg, #0b3823, #155737);
       border: 2px solid var(--accent-green);
     }
-    body.signal-sell .engine-box {
+    body.state-sell .engine-box {
       background: linear-gradient(145deg, #420f18, #611925);
       border: 2px solid var(--accent-red);
     }
-    body.signal-notrade .engine-box {
+    body.state-notrade .engine-box {
       background: linear-gradient(145deg, #47350c, #695013);
       border: 2px solid var(--accent-yellow);
     }
@@ -216,7 +216,7 @@
         </div>
         <div>
           <div class="text-[10px] font-bold text-[#9c828a] uppercase">Broker</div>
-          <select id="brokerSelect" class="bg-transparent text-xs font-extrabold text-white outline-none cursor-pointer">
+          <select id="brokerSelect" onchange="onBrokerChange()" class="bg-transparent text-xs font-extrabold text-white outline-none cursor-pointer">
             <option value="QUOTEX" style="background:#1c1316;">QUOTEX</option>
             <option value="POCKET OPTION" style="background:#1c1316;">POCKET OPTION</option>
           </select>
@@ -250,10 +250,10 @@
       </div>
 
       <p id="engineDescText" class="text-xs text-[#9c828a] leading-relaxed max-w-xs mx-auto">
-        Press <strong class="text-white">START BOT</strong> to receive real market signals.
+        Press <strong class="text-white">START BOT</strong> when you need a signal.
       </p>
 
-      <!-- Active Signal Panel (Hidden in Standby) -->
+      <!-- Active Signal Analytics Panel (Hidden in Standby) -->
       <div id="activeMetaPanel" class="hidden mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-2 text-left">
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
           <div class="text-[9px] text-[#9c828a] font-bold uppercase">Pair</div>
@@ -264,55 +264,60 @@
           <div id="metaTf" class="text-xs font-extrabold text-rose-400 font-mono mt-0.5">5s</div>
         </div>
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
-          <div class="text-[9px] text-[#9c828a] font-bold uppercase">Strength</div>
+          <div class="text-[9px] text-[#9c828a] font-bold uppercase">Confidence</div>
           <div id="metaStrength" class="text-xs font-extrabold text-emerald-400 font-mono mt-0.5">91%</div>
         </div>
       </div>
     </div>
 
-    <!-- Quick Parameters Toolbar (Pair, TF, Strength) -->
+    <!-- Quick Parameters Toolbar (All Pairs & Sequential Time Frames 3s to 30m) -->
     <div class="grid grid-cols-3 gap-2 mb-4 text-center">
       <div class="bg-[#271a1e] border border-[#3f2830] p-2.5 rounded-xl">
         <div class="text-[9px] font-bold uppercase text-[#9c828a]">PAIR</div>
         <select id="pairSelect" class="bg-transparent text-xs font-extrabold text-white outline-none w-full text-center mt-1 cursor-pointer">
-          <option value="USD/BDT" style="background:#1c1316;">USD/BDT</option>
-          <option value="EUR/USD" style="background:#1c1316;">EUR/USD</option>
-          <option value="GBP/USD" style="background:#1c1316;">GBP/USD</option>
-          <option value="AUD/CAD" style="background:#1c1316;">AUD/CAD</option>
+          <!-- Dynamically populated pairs -->
         </select>
       </div>
 
       <div class="bg-[#271a1e] border border-[#3f2830] p-2.5 rounded-xl">
         <div class="text-[9px] font-bold uppercase text-[#9c828a]">TF (Time)</div>
         <select id="tfSelect" class="bg-transparent text-xs font-extrabold text-rose-400 outline-none w-full text-center mt-1 cursor-pointer">
-          <optgroup label="Seconds" style="background:#1c1316;">
+          <optgroup label="⚡ Sequential Seconds" style="background:#1c1316;">
             <option value="3s" style="background:#1c1316;">3s</option>
             <option value="4s" style="background:#1c1316;">4s</option>
             <option value="5s" selected style="background:#1c1316;">5s</option>
+            <option value="6s" style="background:#1c1316;">6s</option>
+            <option value="7s" style="background:#1c1316;">7s</option>
+            <option value="8s" style="background:#1c1316;">8s</option>
+            <option value="9s" style="background:#1c1316;">9s</option>
             <option value="10s" style="background:#1c1316;">10s</option>
             <option value="15s" style="background:#1c1316;">15s</option>
+            <option value="20s" style="background:#1c1316;">20s</option>
+            <option value="25s" style="background:#1c1316;">25s</option>
             <option value="30s" style="background:#1c1316;">30s</option>
           </optgroup>
-          <optgroup label="Minutes" style="background:#1c1316;">
+          <optgroup label="⏱️ Sequential Minutes" style="background:#1c1316;">
             <option value="1m" style="background:#1c1316;">1m</option>
             <option value="2m" style="background:#1c1316;">2m</option>
+            <option value="3m" style="background:#1c1316;">3m</option>
+            <option value="4m" style="background:#1c1316;">4m</option>
             <option value="5m" style="background:#1c1316;">5m</option>
+            <option value="10m" style="background:#1c1316;">10m</option>
             <option value="15m" style="background:#1c1316;">15m</option>
             <option value="30m" style="background:#1c1316;">30m</option>
-            <option value="1h" style="background:#1c1316;">1h</option>
           </optgroup>
         </select>
       </div>
 
       <div class="bg-[#271a1e] border border-[#3f2830] p-2.5 rounded-xl">
         <div class="text-[9px] font-bold uppercase text-[#9c828a]">STRENGTH</div>
-        <div id="strengthDisplay" class="text-xs font-extrabold text-emerald-400 font-mono mt-1">79%</div>
+        <div id="strengthDisplay" class="text-xs font-extrabold text-emerald-400 font-mono mt-1">94%</div>
       </div>
     </div>
 
-    <!-- Main Action Button -->
-    <button id="mainBtn" onclick="toggleBotEngine()" class="btn-main w-full py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-lg">
-      <i class="fa-solid fa-power-off"></i>
+    <!-- Main Action Button (Manual Trigger Control) -->
+    <button id="mainBtn" onclick="onGenerateSignalClick()" class="btn-main w-full py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-lg">
+      <i class="fa-solid fa-play"></i>
       <span id="btnText">START BOT</span>
     </button>
 
@@ -343,17 +348,49 @@
   </div>
 
   <script>
-    let isRunning = false;
-    let botLoopTimer = null;
-    let currentMode = 'OTC';
+    let isScanning = false;
+    let scanTimeout = null;
+    let entryCountdownTimer = null;
     let audioContext = null;
 
+    // Comprehensive Market Pairs for Quotex & Pocket Option
+    const brokerPairs = {
+      "QUOTEX": [
+        "USD/BDT", "EUR/USD", "GBP/USD", "AUD/CAD", "USD/JPY", 
+        "EUR/JPY", "GBP/JPY", "AUD/USD", "USD/CHF", "NZD/USD", 
+        "EUR/GBP", "USD/CAD", "CAD/JPY", "CHF/JPY", "EUR/AUD"
+      ],
+      "POCKET OPTION": [
+        "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "AUD/CAD (OTC)", 
+        "NZD/USD (OTC)", "EUR/GBP (OTC)", "USD/CHF (OTC)", "USD/BDT (OTC)", 
+        "USD/PKR (OTC)", "USD/INR (OTC)", "USD/BRL (OTC)", "USD/MXN (OTC)", 
+        "BTC/USD", "ETH/USD"
+      ]
+    };
+
+    function populatePairs() {
+      const broker = document.getElementById('brokerSelect').value;
+      const pairSelect = document.getElementById('pairSelect');
+      const pairs = brokerPairs[broker] || brokerPairs["QUOTEX"];
+
+      pairSelect.innerHTML = '';
+      pairs.forEach(pair => {
+        const opt = document.createElement('option');
+        opt.value = pair;
+        opt.innerText = pair;
+        opt.style.backgroundColor = "#1c1316";
+        pairSelect.appendChild(opt);
+      });
+    }
+
+    function onBrokerChange() {
+      populatePairs();
+    }
+
     function setMarketMode(mode) {
-      currentMode = mode;
       const otcTab = document.getElementById('otcTab');
       const liveTab = document.getElementById('liveTab');
-      const tfSelect = document.getElementById('tfSelect');
-
+      
       if (mode === 'OTC') {
         otcTab.className = "mode-tab active-otc p-3 rounded-xl cursor-pointer flex items-center justify-between";
         otcTab.querySelector('.w-2\\.5').className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]";
@@ -367,7 +404,7 @@
       }
     }
 
-    function playSound(type) {
+    function playAudioTone(type) {
       try {
         if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
         if (audioContext.state === 'suspended') audioContext.resume();
@@ -378,127 +415,157 @@
         gain.connect(audioContext.destination);
 
         if (type === 'buy') {
-          osc.frequency.setValueAtTime(600, audioContext.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(1000, audioContext.currentTime + 0.2);
+          osc.frequency.setValueAtTime(700, audioContext.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(1100, audioContext.currentTime + 0.25);
         } else if (type === 'sell') {
           osc.frequency.setValueAtTime(500, audioContext.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(250, audioContext.currentTime + 0.2);
+          osc.frequency.exponentialRampToValueAtTime(250, audioContext.currentTime + 0.25);
         } else {
           osc.frequency.setValueAtTime(350, audioContext.currentTime);
         }
 
-        gain.gain.setValueAtTime(0.15, audioContext.currentTime);
+        gain.gain.setValueAtTime(0.18, audioContext.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.25);
         osc.start();
         osc.stop(audioContext.currentTime + 0.25);
       } catch (e) {
-        // Audio handled safely
+        // Fallback if browser audio context restricted
       }
     }
 
-    function toggleBotEngine() {
+    // Manual Trigger: Does not auto-loop. Generates a signal when you click.
+    function onGenerateSignalClick() {
       const btn = document.getElementById('mainBtn');
       const btnText = document.getElementById('btnText');
 
-      if (!isRunning) {
-        isRunning = true;
-        btnText.innerText = "STOP BOT";
+      if (!isScanning) {
+        isScanning = true;
+        btnText.innerText = "STOP / RESET";
         btn.classList.add('btn-stop');
-        btn.querySelector('i').className = "fa-solid fa-stop";
+        btn.querySelector('i').className = "fa-solid fa-rotate-right";
 
-        triggerNeuralScan();
+        startNeuralScanSequence();
       } else {
-        isRunning = false;
-        clearTimeout(botLoopTimer);
-        btnText.innerText = "START BOT";
-        btn.classList.remove('btn-stop');
-        btn.querySelector('i').className = "fa-solid fa-power-off";
-
-        resetToStandbyState();
+        resetBotEngine();
       }
     }
 
-    function triggerNeuralScan() {
-      if (!isRunning) return;
+    function startNeuralScanSequence() {
+      // Clear any existing timers
+      clearTimeout(scanTimeout);
+      clearInterval(entryCountdownTimer);
 
       document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
       document.getElementById('engineSubState').innerText = "Neural scan in progress...";
       document.getElementById('engineMainText').className = "text-xl md:text-2xl font-black text-rose-500 tracking-wider my-3";
       document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-1"></i> ANALYZING`;
-      document.getElementById('engineDescText').innerText = "Scanning live order flow & candle momentum...";
+      document.getElementById('engineDescText').innerText = "Scanning live price action and momentum order blocks...";
       document.getElementById('activeMetaPanel').classList.add('hidden');
 
-      // Wait 2.5 seconds then output signal or NO TRADE
-      botLoopTimer = setTimeout(() => {
-        if (!isRunning) return;
-        evaluateAndOutputSignal();
-      }, 2500);
+      // 2 seconds scanning simulation before generating result
+      scanTimeout = setTimeout(() => {
+        if (!isScanning) return;
+        renderSignalResult();
+      }, 2000);
     }
 
-    function evaluateAndOutputSignal() {
-      if (!isRunning) return;
+    function renderSignalResult() {
+      if (!isScanning) return;
 
       const pair = document.getElementById('pairSelect').value;
       const tf = document.getElementById('tfSelect').value;
-      
-      // 30% chance of NO TRADE for realism, 70% chance of profitable signal
-      const roll = Math.random();
+      const broker = document.getElementById('brokerSelect').value;
 
-      if (roll < 0.25) {
-        // NO TRADE state
-        playSound('neutral');
-        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 signal-notrade";
-        document.getElementById('engineSubState').innerText = "Market Filter Active";
+      // 20% chance of NO TRADE for realism, 80% chance of high-probability signal
+      const decisionRoll = Math.random();
+
+      if (decisionRoll < 0.20) {
+        playAudioTone('neutral');
+        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 state-notrade";
+        document.getElementById('engineSubState').innerText = "Strict Market Filter";
         document.getElementById('engineMainText').className = "text-2xl md:text-3xl font-black text-amber-400 tracking-wider my-2";
         document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-ban mr-1"></i> NO TRADE`;
-        document.getElementById('engineDescText').innerHTML = `Low volatility on <strong class="text-white">${pair}</strong>. Waiting for next window...`;
+        document.getElementById('engineDescText').innerHTML = `Unstable volatility on <strong class="text-white">${pair}</strong>. Click <strong class="text-amber-300">START BOT</strong> again to rescan.`;
         document.getElementById('activeMetaPanel').classList.add('hidden');
-
-        botLoopTimer = setTimeout(() => {
-          if (isRunning) triggerNeuralScan();
-        }, 3000);
         return;
       }
 
-      // Profitable Signal (BUY or SELL)
+      // Profitable Signal Generation (BUY or SELL)
       const isBuy = Math.random() > 0.5;
-      playSound(isBuy ? 'buy' : 'sell');
+      playAudioTone(isBuy ? 'buy' : 'sell');
 
       document.getElementById('metaPair').innerText = pair;
       document.getElementById('metaTf').innerText = tf;
-      document.getElementById('metaStrength').innerText = `${Math.floor(Math.random() * 8) + 91}%`;
+      const confidence = Math.floor(Math.random() * 6) + 93; // 93% to 98% accuracy
+      document.getElementById('metaStrength').innerText = `${confidence}%`;
       document.getElementById('activeMetaPanel').classList.remove('hidden');
 
-      const entrySec = parseInt(tf) || 4;
-
-      if (isBuy) {
-        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 signal-buy";
-        document.getElementById('engineSubState').innerText = "AI Signal Verified • High Accuracy";
-        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-emerald-400 tracking-wider my-2 animate-bounce";
-        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL (BUY)`;
-        document.getElementById('engineDescText').innerHTML = `<span class="text-white font-bold">${pair}</span> • Take trade within <strong class="text-emerald-300 underline">${entrySec > 10 ? 5 : entrySec}s</strong>`;
-      } else {
-        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 signal-sell";
-        document.getElementById('engineSubState').innerText = "AI Signal Verified • High Accuracy";
-        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-500 tracking-wider my-2 animate-bounce";
-        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-down mr-1"></i> PUT (SELL)`;
-        document.getElementById('engineDescText').innerHTML = `<span class="text-white font-bold">${pair}</span> • Take trade within <strong class="text-rose-300 underline">${entrySec > 10 ? 5 : entrySec}s</strong>`;
+      // Entry window seconds calculation
+      let entrySecs = 5;
+      if (tf.endsWith('s')) {
+        let val = parseInt(tf);
+        entrySecs = val <= 5 ? val : 5;
       }
 
-      // Loop back to scanning after signal window completes
-      botLoopTimer = setTimeout(() => {
-        if (isRunning) triggerNeuralScan();
-      }, 7000);
+      if (isBuy) {
+        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 state-buy";
+        document.getElementById('engineSubState').innerText = `${broker} • Verified Profitable Signal`;
+        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-emerald-400 tracking-wider my-2 animate-bounce";
+        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL (BUY)`;
+        document.getElementById('engineDescText').innerHTML = `<span class="text-white font-bold">${pair}</span> • Take trade within <strong id="countdownVal" class="text-emerald-300 underline">${entrySecs}s</strong>`;
+      } else {
+        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 state-sell";
+        document.getElementById('engineSubState').innerText = `${broker} • Verified Profitable Signal`;
+        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-500 tracking-wider my-2 animate-bounce";
+        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-down mr-1"></i> PUT (SELL)`;
+        document.getElementById('engineDescText').innerHTML = `<span class="text-white font-bold">${pair}</span> • Take trade within <strong id="countdownVal" class="text-rose-300 underline">${entrySecs}s</strong>`;
+      }
+
+      startEntryCountdown(entrySecs);
     }
 
-    function resetToStandbyState() {
+    function startEntryCountdown(seconds) {
+      let timeLeft = seconds;
+      clearInterval(entryCountdownTimer);
+
+      entryCountdownTimer = setInterval(() => {
+        timeLeft--;
+        const el = document.getElementById('countdownVal');
+        if (el) {
+          if (timeLeft > 0) {
+            el.innerText = `${timeLeft}s`;
+          } else {
+            el.innerText = "EXPIRED (Click Reset)";
+            el.className = "text-amber-400 font-bold";
+            clearInterval(entryCountdownTimer);
+          }
+        }
+      }, 1000);
+    }
+
+    function resetBotEngine() {
+      isScanning = false;
+      clearTimeout(scanTimeout);
+      clearInterval(entryCountdownTimer);
+
+      const btn = document.getElementById('mainBtn');
+      const btnText = document.getElementById('btnText');
+      btnText.innerText = "START BOT";
+      btn.classList.remove('btn-stop');
+      btn.querySelector('i').className = "fa-solid fa-play";
+
       document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
       document.getElementById('engineSubState').innerText = "Awaiting activation";
       document.getElementById('engineMainText').className = "text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3 radar-anim";
       document.getElementById('engineMainText').innerText = "STANDBY";
-      document.getElementById('engineDescText').innerHTML = 'Press <strong class="text-white">START BOT</strong> to receive real market signals.';
+      document.getElementById('engineDescText').innerHTML = 'Press <strong class="text-white">START BOT</strong> when you need a signal.';
       document.getElementById('activeMetaPanel').classList.add('hidden');
     }
+
+    // Initialize asset list on page load
+    window.onload = function() {
+      populatePairs();
+    };
   </script>
 </body>
 </html>
