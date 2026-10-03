@@ -1,280 +1,886 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Quantum FX Signal Bot</title>
-<style>
-    :root {
-        --bg: #080c14;
-        --surface: #121a2b;
-        --primary: #00d2ff;
-        --primary-glow: rgba(0, 210, 255, 0.4);
-        --success: #00ff88;
-        --danger: #ff3366;
-        --text: #ffffff;
-        --text-dim: #798b9e;
-        --border: #1f2a40;
-    }
-    
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    
-    body { background-color: var(--bg); color: var(--text); overflow: hidden; }
-    
-    .app-container {
-        width: 100vw; height: 100vh; max-width: 500px; margin: 0 auto;
-        position: relative; background: var(--bg); display: flex; flex-direction: column;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Amir FX Bot - Complete Replica</title>
+    <style>
+        :root {
+            --bg-main: #060c17;
+            --bg-card: #0d182a;
+            --bg-element: #14243b;
+            --cyan-accent: #00e5ff;
+            --cyan-glow: rgba(0, 229, 255, 0.3);
+            --green-signal: #00e676;
+            --green-glow: rgba(0, 230, 118, 0.3);
+            --red-signal: #ff1744;
+            --text-primary: #ffffff;
+            --text-secondary: #7e94b4;
+            --border-color: #1c3252;
+        }
 
-    .header {
-        padding: 15px 20px; display: flex; justify-content: space-between;
-        border-bottom: 1px solid var(--border); background: var(--surface);
-    }
-    .header-title { font-size: 14px; font-weight: 700; color: var(--text-dim); }
-    .status { font-size: 12px; color: var(--success); display: flex; align-items: center; gap: 5px; }
-    .status::before { content: ''; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
+        }
 
-    /* Screens */
-    .screen { flex: 1; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-    .screen.active { display: flex; }
+        body {
+            background-color: #02060d;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    /* Home Screen Elements */
-    .radar-circle {
-        width: 200px; height: 200px; margin: 20px auto; border-radius: 50%;
-        border: 2px solid var(--border); display: flex; flex-direction: column;
-        align-items: center; justify-content: center; position: relative;
-        box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 20px var(--primary-glow);
-    }
-    .radar-circle h2 { font-size: 24px; color: var(--primary); margin-bottom: 5px; }
-    .radar-circle p { font-size: 12px; color: var(--text-dim); text-align: center; padding: 0 20px; }
-    
-    .stats-row { display: flex; justify-content: space-between; background: var(--surface); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border); }
-    .stat-box { text-align: center; width: 30%; }
-    .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; }
-    .stat-value { font-size: 16px; font-weight: bold; }
+        .phone-frame {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 880px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.1);
+        }
 
-    .selector-btn {
-        background: var(--surface); border: 1px solid var(--border); color: var(--text);
-        padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold;
-        display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-    }
+        /* Header Bar */
+        .header {
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
 
-    .timeframes { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
-    .timeframes::-webkit-scrollbar { display: none; }
-    .tf-btn {
-        background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
-        padding: 10px 20px; border-radius: 8px; font-weight: bold; white-space: nowrap; transition: 0.2s;
-    }
-    .tf-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .start-btn {
-        background: linear-gradient(90deg, #00d2ff, #0088ff); color: #fff;
-        border: none; padding: 20px; border-radius: 12px; font-size: 18px; font-weight: bold;
-        text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 20px rgba(0, 136, 255, 0.4);
-        margin-top: auto;
-    }
+        .dot-green {
+            width: 6px;
+            height: 6px;
+            background-color: var(--green-signal);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green-signal);
+        }
 
-    /* Pairs Screen */
-    .pairs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-    .pair-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .uptime-tag {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--cyan-accent);
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            font-size: 10px;
+            font-weight: bold;
+        }
 
-    /* Scan Screen */
-    .loader-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .spinner { width: 80px; height: 80px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 30px; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Screen Views */
+        .view-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Signal Screen */
-    .signal-box { background: var(--surface); border: 2px solid var(--primary); border-radius: 16px; padding: 30px 20px; text-align: center; margin-top: 20px; box-shadow: 0 0 30px var(--primary-glow); }
-    .signal-direction { font-size: 48px; font-weight: bold; margin: 15px 0; }
-    .signal-up { color: var(--success); text-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
-    .signal-down { color: var(--danger); text-shadow: 0 0 15px rgba(255, 51, 102, 0.5); }
-    .accuracy-badge { display: inline-block; background: rgba(0, 210, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-bottom: 20px; }
-    .timer { font-size: 42px; font-weight: bold; font-family: monospace; }
-</style>
+        .screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Standby Radar Engine */
+        .engine-title {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+
+        .engine-sub {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .radar-box {
+            width: 170px;
+            height: 170px;
+            margin: 10px auto;
+            border-radius: 50%;
+            border: 2px solid var(--cyan-accent);
+            box-shadow: 0 0 25px var(--cyan-glow), inset 0 0 25px var(--cyan-glow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle, rgba(0,229,255,0.05) 0%, rgba(13,24,42,0.8) 100%);
+        }
+
+        .radar-box::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px dashed rgba(0, 229, 255, 0.4);
+            animation: rotateRadar 12s linear infinite;
+        }
+
+        @keyframes rotateRadar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .radar-status {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .radar-desc {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        /* Controls Grid */
+        .controls-group {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .info-val {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-top: 2px;
+        }
+
+        .pair-selector-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--cyan-accent);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+
+        /* Timeframe Grid */
+        .grid-title {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .tf-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .tf-btn {
+            background: var(--bg-element);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .tf-btn.active {
+            background: var(--cyan-accent);
+            color: #000;
+            border-color: var(--cyan-accent);
+            box-shadow: 0 0 10px var(--cyan-glow);
+        }
+
+        /* Risk Selector */
+        .risk-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .risk-btn {
+            background: var(--bg-element);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .risk-btn.active {
+            border-color: #ffb300;
+            color: #ffb300;
+            background: rgba(255, 179, 0, 0.1);
+        }
+
+        /* Start Action Button */
+        .btn-start {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Pair Selection Modal */
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-main);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--cyan-accent);
+        }
+
+        .close-btn {
+            font-size: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .pair-list-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .pair-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .pair-item:hover, .pair-item.selected {
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+            background: rgba(0, 229, 255, 0.05);
+        }
+
+        /* Scanning Phase View */
+        .scanning-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .chart-simulation {
+            width: 100%;
+            height: 140px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .candle {
+            width: 10px;
+            border-radius: 2px;
+            animation: candlePulse 1.2s infinite ease-in-out alternate;
+        }
+
+        @keyframes candlePulse {
+            0% { height: 30px; }
+            100% { height: 90px; }
+        }
+
+        .c-green { background: var(--green-signal); box-shadow: 0 0 8px var(--green-glow); }
+        .c-red { background: var(--red-signal); }
+
+        .progress-bar-wrap {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-element);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--cyan-accent);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--cyan-accent);
+        }
+
+        .scan-status-text {
+            font-size: 12px;
+            color: var(--cyan-accent);
+            font-family: monospace;
+        }
+
+        /* Signal Alert Overlay Card */
+        .signal-alert-card {
+            background: var(--bg-card);
+            border: 1px solid var(--cyan-accent);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 0 30px var(--cyan-glow);
+            margin: auto 0;
+        }
+
+        .signal-badge {
+            display: inline-block;
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--green-signal);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid var(--green-signal);
+            margin-bottom: 12px;
+        }
+
+        .signal-dir {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--green-signal);
+            text-shadow: 0 0 20px var(--green-glow);
+            margin: 5px 0;
+        }
+
+        .accuracy-val {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .timer-count {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--cyan-accent);
+            margin: 10px 0;
+        }
+
+        /* Trade Complete View */
+        .complete-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin: auto 0;
+        }
+
+        /* Notification Toast */
+        .toast-notify {
+            position: absolute;
+            bottom: 70px;
+            left: 16px;
+            right: 16px;
+            background: rgba(20, 36, 59, 0.95);
+            border: 1px solid var(--cyan-accent);
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: var(--text-secondary);
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--cyan-accent);
+        }
+
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+    </style>
 </head>
 <body>
 
-<div class="app-container">
+<div class="phone-frame">
+    <!-- Header -->
     <div class="header">
-        <div class="header-title">OTC MARKET PRO</div>
-        <div class="status">Connected - Server 01</div>
-    </div>
-
-    <!-- HOME SCREEN -->
-    <div id="screen-home" class="screen active">
-        <div class="radar-circle">
-            <h2>STANDBY</h2>
-            <p>Press START to analyze the quantum engine algorithms.</p>
+        <div class="server-status">
+            <div class="dot-green"></div>
+            <span>BROKER: POCKET OPTION</span>
         </div>
-
-        <div class="stats-row">
-            <div class="stat-box">
-                <div class="stat-label">Market</div>
-                <div class="stat-value">OTC</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">Win Rate</div>
-                <div class="stat-value text-success">98.7%</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">Strength</div>
-                <div class="stat-value" id="market-strength">84%</div>
-            </div>
-        </div>
-
-        <div class="selector-btn" onclick="showScreen('screen-pairs')">
-            <span id="selected-pair">EUR/USD (OTC)</span>
-            <span>▼</span>
-        </div>
-
-        <div class="timeframes">
-            <div class="tf-btn" onclick="selectTf(this, 3)">3s</div>
-            <div class="tf-btn" onclick="selectTf(this, 6)">6s</div>
-            <div class="tf-btn" onclick="selectTf(this, 9)">9s</div>
-            <div class="tf-btn" onclick="selectTf(this, 12)">12s</div>
-            <div class="tf-btn active" onclick="selectTf(this, 15)">15s</div>
-            <div class="tf-btn" onclick="selectTf(this, 18)">18s</div>
-            <div class="tf-btn" onclick="selectTf(this, 21)">21s</div>
-            <div class="tf-btn" onclick="selectTf(this, 60)">1m</div>
-            <div class="tf-btn" onclick="selectTf(this, 3600)">1hr</div>
-        </div>
-
-        <button class="start-btn" onclick="startBot()">▶ START BOT</button>
-    </div>
-
-    <!-- PAIRS SCREEN -->
-    <div id="screen-pairs" class="screen">
-        <h3 style="margin-bottom: 15px; color: var(--text-dim);">SELECT OTC PAIR</h3>
-        <div class="pairs-grid" id="pairs-container">
-            <!-- Populated by JS -->
-        </div>
-        <button class="start-btn" style="margin-top: 20px; background: var(--surface); color: var(--text);" onclick="showScreen('screen-home')">Cancel</button>
-    </div>
-
-    <!-- SCANNING SCREEN -->
-    <div id="screen-scan" class="screen">
-        <div class="loader-container">
-            <div class="spinner"></div>
-            <h2 style="color: var(--primary); margin-bottom: 10px;">AI SIGNAL ENGINE</h2>
-            <p style="color: var(--text-dim);">Analyzing deep market data & moving averages...</p>
+        <div class="server-status">
+            <span>Server: Amir-01</span>
+            <span class="uptime-tag">99.7% UPTIME</span>
         </div>
     </div>
 
-    <!-- SIGNAL SCREEN -->
-    <div id="screen-signal" class="screen">
-        <h3 style="text-align: center; color: var(--text-dim);">NEW SIGNAL ALERT</h3>
+    <!-- Main View Content -->
+    <div class="view-content">
         
-        <div class="signal-box">
-            <h2 id="signal-pair" style="font-size: 20px;">EUR/USD (OTC)</h2>
-            <div id="signal-dir-text" class="signal-direction signal-up">↑ UP (CALL)</div>
-            <div class="accuracy-badge">Accuracy: <span id="signal-accuracy">98</span>%</div>
-            
-            <div style="margin-top: 20px;">
-                <div class="stat-label">EXPIRATION TIME</div>
-                <div class="timer" id="signal-timer">00:15</div>
+        <!-- SCREEN 1: Standby Dashboard -->
+        <div id="screen-dashboard" class="screen active">
+            <div class="engine-title">AI SIGNAL ENGINE</div>
+            <div class="engine-sub">Analyzing market data...</div>
+
+            <div class="radar-box">
+                <div class="radar-status" id="radar-main-status">STANDBY</div>
+                <div class="radar-desc" id="radar-sub-status">Press START BOT to receive signals</div>
+            </div>
+
+            <div class="controls-group">
+                <!-- Pair Selector Button -->
+                <div class="pair-selector-btn" onclick="openPairModal()">
+                    <div class="info-item">
+                        <span class="info-label">SELECTED PAIR</span>
+                        <span class="info-val" id="selected-pair-display">USD/INR (OTC)</span>
+                    </div>
+                    <span style="color: var(--cyan-accent); font-weight: bold;">CHANGE ➔</span>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-item">
+                        <span class="info-label">TIME LEFT</span>
+                        <span class="info-val" id="time-left-display">00:00</span>
+                    </div>
+                    <div class="info-item" style="text-align: center;">
+                        <span class="info-label">PAIR</span>
+                        <span class="info-val" id="pair-status-display">USD/INR</span>
+                    </div>
+                    <div class="info-item" style="text-align: right;">
+                        <span class="info-label">MARKET STRENGTH</span>
+                        <span class="info-val" style="color: var(--cyan-accent);">78% STRONG</span>
+                    </div>
+                </div>
+
+                <!-- Timeframe Selection -->
+                <div>
+                    <div class="grid-title">TIMEFRAME</div>
+                    <div class="tf-grid">
+                        <div class="tf-btn" onclick="selectTF(this, '10s')">10s</div>
+                        <div class="tf-btn active" onclick="selectTF(this, '15s')">15s</div>
+                        <div class="tf-btn" onclick="selectTF(this, '30s')">30s</div>
+                        <div class="tf-btn" onclick="selectTF(this, '1m')">1m</div>
+                        <div class="tf-btn" onclick="selectTF(this, '2m')">2m</div>
+                        <div class="tf-btn" onclick="selectTF(this, '3m')">3m</div>
+                        <div class="tf-btn" onclick="selectTF(this, '5m')">5m</div>
+                        <div class="tf-btn" onclick="selectTF(this, '15m')">15m</div>
+                    </div>
+                </div>
+
+                <!-- Risk Level -->
+                <div>
+                    <div class="grid-title">RISK LEVEL</div>
+                    <div class="risk-row">
+                        <div class="risk-btn" onclick="selectRisk(this)">Low</div>
+                        <div class="risk-btn active" onclick="selectRisk(this)">Moderate</div>
+                        <div class="risk-btn" onclick="selectRisk(this)">High</div>
+                    </div>
+                </div>
+
+                <button class="btn-start" onclick="startBotAnalysis()">
+                    <span>►</span> START BOT
+                </button>
             </div>
         </div>
 
-        <button class="start-btn" id="finish-btn" style="background: var(--surface); color: var(--text-dim); box-shadow: none;" disabled>TRADE IN PROGRESS...</button>
-        <button class="start-btn" id="new-signal-btn" style="display: none;" onclick="resetBot()">GENERATE NEW SIGNAL</button>
+        <!-- SCREEN 2: Scanning & Analysis -->
+        <div id="screen-scanning" class="screen">
+            <div class="engine-title" style="margin-top: 20px;">AI ANALYZING MARKET</div>
+            <div class="engine-sub" id="scanning-pair-label">USD/INR (OTC) - 15s</div>
+
+            <div class="scanning-container">
+                <div class="chart-simulation">
+                    <div class="candle c-green" style="animation-delay: 0.1s;"></div>
+                    <div class="candle c-red" style="animation-delay: 0.3s;"></div>
+                    <div class="candle c-green" style="animation-delay: 0.2s;"></div>
+                    <div class="candle c-green" style="animation-delay: 0.4s;"></div>
+                    <div class="candle c-red" style="animation-delay: 0.1s;"></div>
+                    <div class="candle c-green" style="animation-delay: 0.5s;"></div>
+                </div>
+
+                <div class="progress-bar-wrap">
+                    <div class="progress-fill" id="scan-progress"></div>
+                </div>
+                <div class="scan-status-text" id="scan-log-text">Scanning candles...</div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Signal Alert Modal -->
+        <div id="screen-alert" class="screen">
+            <div class="signal-alert-card">
+                <div class="signal-badge">SIGNAL ALERT</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;" id="alert-pair-name">USD/INR (OTC)</div>
+                <div class="signal-dir">⬆ UP</div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 10px;">ACCURACY</div>
+                <div class="accuracy-val">98%</div>
+
+                <div style="margin-top: 20px; font-size: 12px; color: var(--text-secondary);">GET READY - TAKE TRADE IN</div>
+                <div class="timer-count" id="alert-timer">5s</div>
+
+                <button class="btn-start" style="background: var(--green-signal);" onclick="confirmSignalTrade()">
+                    GOT IT
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: Active Running Trade -->
+        <div id="screen-active-trade" class="screen">
+            <div class="engine-title" style="margin-top: 20px; color: var(--green-signal);">ACTIVE TRADE IN PROGRESS</div>
+            
+            <div class="radar-box" style="border-color: var(--green-signal); box-shadow: 0 0 25px var(--green-glow);">
+                <div class="radar-status" style="color: var(--green-signal);">⬆ CALL</div>
+                <div class="radar-desc" style="color: #fff; font-size: 14px; font-weight: bold; margin-top: 6px;" id="active-countdown">15s</div>
+            </div>
+
+            <div class="info-card" style="margin-top: 30px;">
+                <div class="info-item">
+                    <span class="info-label">PAIR</span>
+                    <span class="info-val" id="active-pair-val">USD/INR (OTC)</span>
+                </div>
+                <div class="info-item" style="text-align: right;">
+                    <span class="info-label">SIGNAL CONFIDENCE</span>
+                    <span class="info-val" style="color: var(--green-signal);">98% MATCH</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: Trade Complete -->
+        <div id="screen-complete" class="screen">
+            <div class="complete-card">
+                <div class="signal-badge" style="background: rgba(0,229,255,0.1); color: var(--cyan-accent); border-color: var(--cyan-accent);">
+                    TRADE COMPLETE
+                </div>
+                <div style="font-size: 22px; font-weight: bold; margin: 15px 0;" id="complete-pair-title">USD/INR (OTC)</div>
+                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 25px;">What's next?</div>
+
+                <button class="btn-start" onclick="startBotAnalysis()" style="margin-bottom: 12px;">
+                    ⚡ GENERATE NEW SIGNAL
+                </button>
+                <button class="btn-start" style="background: var(--bg-element); border: 1px solid var(--border-color);" onclick="openPairModal()">
+                    🔄 TRADE ON NEW PAIR
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Live Toast Notification -->
+    <div id="toast" class="toast-notify" style="display: none;">
+        <div class="dot-green"></div>
+        <div>
+            <strong id="toast-user">Hanzala #3755</strong> <span style="color: var(--text-secondary);">just won</span> <strong style="color: var(--green-signal);" id="toast-amount">$95.00</strong>
+        </div>
+    </div>
+
+    <!-- OTC Pairs Selector Modal -->
+    <div id="pair-modal" class="modal">
+        <div class="modal-header">
+            <span>SELECT OTC PAIR</span>
+            <span class="close-btn" onclick="closePairModal()">✕</span>
+        </div>
+        <div class="pair-list-grid" id="pair-grid">
+            <!-- Populated via JS -->
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab(this)">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span>Dashboard</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this)">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8z"/></svg>
+            <span>History</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this)">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1H2a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7H9V5.73C8.4 5.39 8 4.74 8 4a2 2 0 012-2z"/></svg>
+            <span>Bot</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this)">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+            <span>Analytics</span>
+        </div>
     </div>
 </div>
 
 <script>
-    // Variables
-    let selectedTimeframe = 15;
-    const pairs = ["EUR/USD (OTC)", "AUD/CAD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "AED/CNY (OTC)", "CHF/NOK (OTC)", "NZD/USD (OTC)", "USD/BRL (OTC)"];
-    
-    // Initialize Pairs Grid
-    const pairsGrid = document.getElementById('pairs-container');
-    pairs.forEach(pair => {
-        let btn = document.createElement('div');
-        btn.className = 'pair-btn';
-        btn.innerText = pair;
-        btn.onclick = () => {
-            document.getElementById('selected-pair').innerText = pair;
-            showScreen('screen-home');
-        };
-        pairsGrid.appendChild(btn);
-    });
+    // OTC Pairs List matching the video UI
+    const otcPairs = [
+        "AED/CNY (OTC)", "AUD/CAD (OTC)", "CHF/NOK (OTC)", "EUR/CHF (OTC)",
+        "EUR/GBP (OTC)", "GBP/AUD (OTC)", "NZD/USD (OTC)", "SAR/CNY (OTC)",
+        "USD/BRL (OTC)", "USD/CLP (OTC)", "USD/INR (OTC)", "USD/MXN (OTC)",
+        "USD/RUB (OTC)", "USD/TRY (OTC)", "ZAR/USD (OTC)", "EUR/USD (OTC)"
+    ];
 
-    // Navigation
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+    let currentPair = "USD/INR (OTC)";
+    let currentTimeframe = "15s";
+
+    // Populate OTC Pair Modal
+    function initPairs() {
+        const grid = document.getElementById('pair-grid');
+        grid.innerHTML = '';
+        otcPairs.forEach(pair => {
+            const div = document.createElement('div');
+            div.className = `pair-item ${pair === currentPair ? 'selected' : ''}`;
+            div.innerText = pair;
+            div.onclick = () => selectPair(pair);
+            grid.appendChild(div);
+        });
     }
 
-    // Timeframe Selection
-    function selectTf(element, seconds) {
+    function openPairModal() {
+        document.getElementById('pair-modal').classList.add('active');
+    }
+
+    function closePairModal() {
+        document.getElementById('pair-modal').classList.remove('active');
+    }
+
+    function selectPair(pair) {
+        currentPair = pair;
+        document.getElementById('selected-pair-display').innerText = pair;
+        document.getElementById('pair-status-display').innerText = pair.split(' ')[0];
+        closePairModal();
+        initPairs();
+    }
+
+    function selectTF(el, tf) {
         document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('active'));
-        element.classList.add('active');
-        selectedTimeframe = seconds;
+        el.classList.add('active');
+        currentTimeframe = tf;
     }
 
-    // Bot Logic
-    function startBot() {
-        showScreen('screen-scan');
-        
-        // Simulate scanning delay
-        setTimeout(() => {
-            generateSignal();
-        }, 2500);
+    function selectRisk(el) {
+        document.querySelectorAll('.risk-btn').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
     }
 
-    function generateSignal() {
-        const isUp = Math.random() > 0.5;
-        const accuracy = Math.floor(Math.random() * (99 - 94 + 1)) + 94; // Random 94-99%
-        
-        document.getElementById('signal-pair').innerText = document.getElementById('selected-pair').innerText;
-        document.getElementById('signal-accuracy').innerText = accuracy;
-        
-        const dirText = document.getElementById('signal-dir-text');
-        if (isUp) {
-            dirText.innerText = "↑ UP (CALL)";
-            dirText.className = "signal-direction signal-up";
-        } else {
-            dirText.innerText = "↓ DOWN (PUT)";
-            dirText.className = "signal-direction signal-down";
-        }
-
-        showScreen('screen-signal');
-        startTimer(selectedTimeframe);
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
     }
 
-    function startTimer(seconds) {
-        let timeLeft = seconds;
-        const timerDisplay = document.getElementById('signal-timer');
-        const finishBtn = document.getElementById('finish-btn');
-        const newBtn = document.getElementById('new-signal-btn');
+    // Step 1: Start Bot Analysis Sequence
+    function startBotAnalysis() {
+        showScreen('screen-scanning');
+        document.getElementById('scanning-pair-label').innerText = `${currentPair} - ${currentTimeframe}`;
         
-        finishBtn.style.display = 'block';
-        newBtn.style.display = 'none';
-        finishBtn.innerText = "TRADE IN PROGRESS...";
+        const logs = [
+            "Scanning candles...",
+            "Checking RSI > MACD...",
+            "EMA Alignment verified...",
+            "Calculating volatility...",
+            "Calibrating high-accuracy signal..."
+        ];
 
-        const formatTime = (s) => {
-            let m = Math.floor(s / 60);
-            let rm = s % 60;
-            return `${m.toString().padStart(2, '0')}:${rm.toString().padStart(2, '0')}`;
-        };
+        let step = 0;
+        const progressFill = document.getElementById('scan-progress');
+        const logText = document.getElementById('scan-log-text');
 
-        timerDisplay.innerText = formatTime(timeLeft);
+        progressFill.style.width = '0%';
 
-        const interval = setInterval(() => {
-            timeLeft--;
-            timerDisplay.innerText = formatTime(timeLeft);
-            
-            if (timeLeft <= 0) {
-                clearInterval(interval);
-                finishBtn.style.display = 'none';
-                newBtn.style.display = 'block';
+        const scanInterval = setInterval(() => {
+            step++;
+            progressFill.style.width = (step * 20) + '%';
+            if (step < logs.length) {
+                logText.innerText = logs[step];
+            } else {
+                clearInterval(scanInterval);
+                setTimeout(triggerSignalAlert, 600);
+            }
+        }, 800);
+    }
+
+    // Step 2: Trigger Signal Alert with Countdown
+    function triggerSignalAlert() {
+        showScreen('screen-alert');
+        document.getElementById('alert-pair-name').innerText = currentPair;
+        
+        let count = 5;
+        const alertTimer = document.getElementById('alert-timer');
+        alertTimer.innerText = count + 's';
+
+        const timerInterval = setInterval(() => {
+            count--;
+            alertTimer.innerText = count + 's';
+            if (count <= 0) {
+                clearInterval(timerInterval);
+                confirmSignalTrade();
             }
         }, 1000);
     }
 
-    function resetBot() {
-        document.getElementById('market-strength').innerText = Math.floor(Math.random() * (95 - 70 + 1)) + 70 + "%";
-        showScreen('screen-home');
+    // Step 3: Run Active Trade Timer
+    function confirmSignalTrade() {
+        showScreen('screen-active-trade');
+        document.getElementById('active-pair-val').innerText = currentPair;
+        
+        let tradeSeconds = parseInt(currentTimeframe) || 15;
+        const activeCountdown = document.getElementById('active-countdown');
+        activeCountdown.innerText = tradeSeconds + 's';
+
+        triggerLiveToast();
+
+        const tradeInterval = setInterval(() => {
+            tradeSeconds--;
+            activeCountdown.innerText = tradeSeconds + 's';
+            if (tradeSeconds <= 0) {
+                clearInterval(tradeInterval);
+                finishTrade();
+            }
+        }, 1000);
     }
+
+    // Step 4: Show Complete Screen
+    function finishTrade() {
+        showScreen('screen-complete');
+        document.getElementById('complete-pair-title').innerText = currentPair;
+    }
+
+    // Simulated Toast Notification
+    function triggerLiveToast() {
+        const toast = document.getElementById('toast');
+        const users = ["Hanzala #3755", "Akash #8821", "David #1092", "Vikram #4401"];
+        const amounts = ["$95.00", "$190.00", "$475.00", "$92.00"];
+        
+        document.getElementById('toast-user').innerText = users[Math.floor(Math.random() * users.length)];
+        document.getElementById('toast-amount').innerText = amounts[Math.floor(Math.random() * amounts.length)];
+
+        toast.style.display = 'flex';
+        setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    }
+
+    function switchTab(el) {
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    // Initialize
+    initPairs();
 </script>
 </body>
 </html>
