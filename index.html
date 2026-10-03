@@ -121,7 +121,6 @@
       animation: radarPulse 2s infinite ease-in-out;
     }
 
-    /* Extra Dynamic & Bigger Buttons */
     .btn-pro {
       background: linear-gradient(135deg, #f43f5e 0%, #9f1239 100%);
       color: #fff;
@@ -217,17 +216,17 @@
       </div>
     </div>
 
-    <!-- Broker Selector (Quotex & Pocket Option) -->
+    <!-- Broker Selector -->
     <div class="bg-[#22161a] border border-[#38222a] rounded-2xl p-3.5 mb-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div id="brokerBadge" class="w-10 h-10 rounded-xl bg-black/40 border border-rose-500/30 flex items-center justify-center text-rose-500 font-extrabold text-xs">
-          QX
+          PO
         </div>
         <div>
           <div class="text-[10px] font-bold text-[#957882] uppercase">Active Platform</div>
           <select id="brokerSelect" onchange="onBrokerChange()" class="bg-transparent text-xs font-extrabold text-white outline-none cursor-pointer mt-0.5">
+            <option value="POCKET OPTION" selected style="background:#181013;">POCKET OPTION</option>
             <option value="QUOTEX" style="background:#181013;">QUOTEX</option>
-            <option value="POCKET OPTION" style="background:#181013;">POCKET OPTION</option>
           </select>
         </div>
       </div>
@@ -316,7 +315,7 @@
       </div>
     </div>
 
-    <!-- Bigger & Dynamic Action Button Container -->
+    <!-- Action Button Container -->
     <div id="buttonContainer" class="space-y-3">
       <button onclick="startAnalysis()" class="btn-pro w-full py-5 rounded-2xl font-extrabold tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer">
         <i class="fa-solid fa-play text-lg"></i>
@@ -353,26 +352,41 @@
   <script>
     let activeInterval = null;
 
-    // Comprehensive Asset Database for Quotex and Pocket Option
+    // Comprehensive Asset Database featuring all full Pocket Option pairs & OTC assets
     const brokerAssets = {
+      "POCKET OPTION": [
+        // Standard Currencies
+        "EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "USD/CHF", "NZD/USD",
+        "EUR/GBP", "EUR/JPY", "GBP/JPY", "AUD/JPY", "CAD/JPY", "GBP/AUD", "EUR/AUD", "AUD/NZD",
+        // OTC Currencies
+        "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "AUD/USD (OTC)", "USD/CAD (OTC)",
+        "USD/CHF (OTC)", "NZD/USD (OTC)", "EUR/GBP (OTC)", "EUR/JPY (OTC)", "GBP/JPY (OTC)",
+        "AUD/JPY (OTC)", "CAD/JPY (OTC)", "USD/BRL (OTC)", "USD/INR (OTC)", "USD/MXN (OTC)",
+        "USD/PHP (OTC)", "USD/IDR (OTC)", "USD/ZAR (OTC)", "USD/PKR (OTC)", "EUR/TRY (OTC)",
+        // Cryptocurrencies
+        "BTC/USD", "ETH/USD", "LTC/USD", "XRP/USD", "ADA/USD", "SOL/USD", "BNB/USD", "DOGE/USD",
+        // Cryptocurrencies OTC
+        "Bitcoin (OTC)", "Ethereum (OTC)", "Litecoin (OTC)", "Ripple (OTC)", "Cardano (OTC)",
+        "Solana (OTC)", "Binance Coin (OTC)", "Dogecoin (OTC)", "Toncoin (OTC)", "Shiba Inu (OTC)",
+        // Commodities
+        "GOLD (XAU/USD)", "SILVER (XAG/USD)", "UK Brent Oil", "US Crude Oil", "Natural Gas", "GOLD (OTC)",
+        // Stocks & Equities OTC
+        "Apple (AAPL)", "Apple (OTC)", "Tesla (TSLA)", "Tesla (OTC)", "Microsoft (MSFT)", "Microsoft (OTC)",
+        "Google (GOOGL)", "Google (OTC)", "Amazon (AMZN)", "Amazon (OTC)", "Netflix (NFLX)", "Netflix (OTC)",
+        "Meta / Facebook (OTC)", "Alibaba (OTC)", "Intel (OTC)", "Visa (OTC)"
+      ],
       "QUOTEX": [
         "EUR/USD", "GBP/USD", "USD/JPY", "AUD/CAD", "EUR/JPY", 
         "GBP/JPY", "AUD/USD", "USD/CHF", "NZD/USD", "EUR/GBP", 
         "USD/CAD", "USD/BDT", "EUR/USD (OTC)", "GBP/USD (OTC)", 
         "USD/JPY (OTC)", "AUD/USD (OTC)", "EUR/JPY (OTC)"
-      ],
-      "POCKET OPTION": [
-        "EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "EUR/GBP", 
-        "USD/CHF", "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", 
-        "AUD/CAD (OTC)", "NZD/USD (OTC)", "USD/PKR (OTC)", "USD/INR (OTC)", 
-        "USD/BRL (OTC)", "BTC/USD", "ETH/USD", "GOLD", "SILVER"
       ]
     };
 
     function populatePairs() {
       const broker = document.getElementById('brokerSelect').value;
       const select = document.getElementById('pairSelect');
-      const list = brokerAssets[broker] || brokerAssets["QUOTEX"];
+      const list = brokerAssets[broker] || brokerAssets["POCKET OPTION"];
       select.innerHTML = '';
       list.forEach(asset => {
         const opt = document.createElement('option');
@@ -410,7 +424,6 @@
       document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
       document.getElementById('activeMetaPanel').classList.add('hidden');
 
-      // Change button state to analyzing
       document.getElementById('buttonContainer').innerHTML = `
         <button disabled class="btn-pro w-full py-5 rounded-2xl font-extrabold uppercase flex items-center justify-center gap-3 opacity-80 cursor-not-allowed">
           <i class="fa-solid fa-spinner fa-spin text-lg"></i>
@@ -440,11 +453,9 @@
       const tf = document.getElementById('tfSelect').value;
       const broker = document.getElementById('brokerSelect').value;
 
-      // High Precision Rule: Strict market viability filter (~12% chance of NO TRADE if momentum is unclear)
       const marketFilterRoll = Math.random();
 
       if (marketFilterRoll < 0.12) {
-        // NO TRADE CONDITION
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-notrade";
         document.getElementById('engineSubState').innerText = `${broker} • Volatility Filter`;
         document.getElementById('engineMainText').className = "text-2xl md:text-3xl font-black text-amber-400 tracking-wider my-2";
@@ -455,9 +466,8 @@
         return;
       }
 
-      // ACCURATE SIGNAL GENERATED
       const isBuy = Math.random() > 0.5;
-      const winProbability = Math.floor(Math.random() * 3) + 97; // 97% to 99%
+      const winProbability = Math.floor(Math.random() * 3) + 97;
 
       document.getElementById('metaPair').innerText = pair;
       document.getElementById('metaTf').innerText = tf;
@@ -465,14 +475,12 @@
       document.getElementById('activeMetaPanel').classList.remove('hidden');
 
       if (isBuy) {
-        // GREEN BOARD (CALL / BUY)
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-buy";
         document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
         document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-emerald-300 tracking-wider my-2 animate-bounce";
         document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL (BUY)`;
         document.getElementById('engineDescText').innerHTML = `High probability upward momentum on <strong class="text-white">${pair}</strong> (${tf}). <strong class="text-emerald-300">Execute trade now!</strong>`;
       } else {
-        // RED BOARD (PUT / SELL)
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-sell";
         document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
         document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-400 tracking-wider my-2 animate-bounce";
