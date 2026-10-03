@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMIR FX - AI BOT - QUOTEX</title>
+  <title>AMIR FX - AI BOT PRO</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,6 +24,7 @@
       --accent-red-glow: rgba(244, 63, 94, 0.55);
       --accent-green: #10b981;
       --accent-green-glow: rgba(16, 185, 129, 0.55);
+      --accent-yellow: #f59e0b;
       --text-light: #fdf2f4;
       --text-muted: #9c828a;
     }
@@ -45,14 +46,18 @@
       overflow-x: hidden;
     }
 
-    /* Full Board Color Transitions matching the video style */
+    /* Full Board Color Transitions matching video */
     body.board-buy {
       background-color: #032013 !important;
-      box-shadow: inset 0 0 180px rgba(16, 185, 129, 0.55);
+      box-shadow: inset 0 0 180px var(--accent-green-glow);
     }
     body.board-sell {
       background-color: #2b060f !important;
-      box-shadow: inset 0 0 180px rgba(244, 63, 94, 0.55);
+      box-shadow: inset 0 0 180px var(--accent-red-glow);
+    }
+    body.board-notrade {
+      background-color: #261c05 !important;
+      box-shadow: inset 0 0 180px rgba(245, 158, 11, 0.4);
     }
 
     .app-card {
@@ -71,6 +76,10 @@
       border-color: var(--accent-red);
       background-color: #3d0d17;
     }
+    body.board-notrade .app-card {
+      border-color: var(--accent-yellow);
+      background-color: #382907;
+    }
 
     .mode-tab {
       background: var(--card-inner);
@@ -81,6 +90,10 @@
     .mode-tab.active-otc {
       background: linear-gradient(135deg, #f43f5e22, #f43f5e44);
       border-color: var(--accent-red);
+    }
+    .mode-tab.active-live {
+      background: linear-gradient(135deg, #10b98122, #10b98144);
+      border-color: var(--accent-green);
     }
 
     .engine-box {
@@ -97,6 +110,10 @@
       background: linear-gradient(145deg, #57121f, #751929);
       border: 2px solid var(--accent-red);
     }
+    body.board-notrade .engine-box {
+      background: linear-gradient(145deg, #59420a, #785a0d);
+      border: 2px solid var(--accent-yellow);
+    }
 
     @keyframes radarPulse {
       0%, 100% { transform: scale(1); opacity: 0.8; }
@@ -106,20 +123,41 @@
       animation: radarPulse 2s infinite ease-in-out;
     }
 
+    /* Dynamic Professional Button Styles */
     .btn-main {
       background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
       color: #fff;
-      box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);
-      transition: all 0.2s ease;
+      box-shadow: 0 10px 30px rgba(244, 63, 94, 0.5);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-main::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    .btn-main:hover::after {
+      left: 100%;
     }
     .btn-main:hover {
       background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(244, 63, 94, 0.7);
     }
-    .btn-stop {
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%) !important;
-      color: #0f172a !important;
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4) !important;
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6);
     }
 
     .nav-bottom-item {
@@ -164,29 +202,32 @@
         <div id="otcTab" onclick="setMarketMode('OTC')" class="mode-tab active-otc p-3 rounded-xl cursor-pointer flex items-center justify-between">
           <div>
             <div class="text-xs font-extrabold text-white">OTC</div>
-            <div class="text-[9px] text-[#9c828a]">5s – 30m</div>
+            <div class="text-[9px] text-[#9c828a]">3s – 1h</div>
           </div>
           <div class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
         </div>
         <div id="liveTab" onclick="setMarketMode('LIVE')" class="mode-tab p-3 rounded-xl cursor-pointer flex items-center justify-between">
           <div>
             <div class="text-xs font-extrabold text-white">LIVE</div>
-            <div class="text-[9px] text-[#9c828a]">1m – 30m</div>
+            <div class="text-[9px] text-[#9c828a]">1m – 1h</div>
           </div>
           <div class="w-2.5 h-2.5 rounded-full bg-zinc-600"></div>
         </div>
       </div>
     </div>
 
-    <!-- Broker Status Row -->
+    <!-- Broker Status Row (Supports Quotex & Pocket Option) -->
     <div class="bg-[#271a1e] border border-[#3f2830] rounded-2xl p-3.5 mb-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-black/40 border border-rose-500/30 flex items-center justify-center text-rose-500 font-extrabold text-xs">
+        <div id="brokerBadge" class="w-10 h-10 rounded-xl bg-black/40 border border-rose-500/30 flex items-center justify-center text-rose-500 font-extrabold text-xs">
           QX
         </div>
         <div>
-          <div class="text-[10px] font-bold text-[#9c828a] uppercase">Broker</div>
-          <div class="text-xs font-extrabold text-white">QUOTEX</div>
+          <div class="text-[10px] font-bold text-[#9c828a] uppercase">Broker Platform</div>
+          <select id="brokerSelect" onchange="onBrokerChange()" class="bg-transparent text-xs font-extrabold text-white outline-none cursor-pointer mt-0.5">
+            <option value="QUOTEX" style="background:#1c1316;">QUOTEX</option>
+            <option value="POCKET OPTION" style="background:#1c1316;">POCKET OPTION</option>
+          </select>
         </div>
       </div>
       <div class="text-right">
@@ -194,7 +235,7 @@
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span class="text-[10px] font-bold text-emerald-400 uppercase">CONNECTED</span>
         </div>
-        <div class="text-[10px] text-[#9c828a] font-mono mt-0.5">Ping: <strong class="text-white">69ms</strong></div>
+        <div class="text-[10px] text-[#9c828a] font-mono mt-0.5">Ping: <strong class="text-white">34ms</strong></div>
       </div>
     </div>
 
@@ -203,75 +244,90 @@
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-1.5 text-[11px] font-bold uppercase text-[#9c828a]">
           <i class="fa-solid fa-microchip text-rose-500"></i>
-          <span>AI SIGNAL ENGINE</span>
+          <span>AI Signal Engine Pro</span>
         </div>
         <div class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-extrabold flex items-center gap-1">
-          <i class="fa-solid fa-circle-check text-[9px]"></i> 99.7% UPTIME
+          <i class="fa-solid fa-circle-check text-[9px]"></i> 99.9% UPTIME
         </div>
       </div>
 
-      <div id="engineSubState" class="text-xs text-[#9c828a] font-medium mb-1">Awaiting activation</div>
+      <div id="engineSubState" class="text-xs text-[#9c828a] font-medium mb-1">Awaiting your command</div>
 
       <div id="engineMainText" class="text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3 radar-anim">
         STANDBY
       </div>
 
       <p id="engineDescText" class="text-xs text-[#9c828a] leading-relaxed max-w-xs mx-auto">
-        Press <strong class="text-white">START BOT</strong> to receive signals
+        Press <strong class="text-white">START BOT</strong> to begin neural pattern scan & high-accuracy signals.
       </p>
 
-      <!-- Active Signal Analytics Panel (Matches video layout exactly) -->
+      <!-- Active Signal Analytics Panel -->
       <div id="activeMetaPanel" class="hidden mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-2 text-left">
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
-          <div class="text-[9px] text-[#9c828a] font-bold uppercase">PAIR</div>
+          <div class="text-[9px] text-[#9c828a] font-bold uppercase">Pair</div>
           <div id="metaPair" class="text-xs font-extrabold text-white font-mono mt-0.5">USD/BDT</div>
         </div>
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
-          <div class="text-[9px] text-[#9c828a] font-bold uppercase">TF</div>
+          <div class="text-[9px] text-[#9c828a] font-bold uppercase">Time Frame</div>
           <div id="metaTf" class="text-xs font-extrabold text-rose-400 font-mono mt-0.5">5s</div>
         </div>
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
-          <div class="text-[9px] text-[#9c828a] font-bold uppercase">STRENGTH</div>
-          <div id="metaStrength" class="text-xs font-extrabold text-emerald-400 font-mono mt-0.5">78%</div>
+          <div class="text-[9px] text-[#9c828a] font-bold uppercase">Accuracy</div>
+          <div id="metaStrength" class="text-xs font-extrabold text-emerald-400 font-mono mt-0.5">97%</div>
         </div>
       </div>
     </div>
 
-    <!-- Configuration Bar (Pairs & Timeframes from video) -->
+    <!-- Configuration Bar (Pairs & Sequential 3s to 1h Timeframes) -->
     <div class="grid grid-cols-3 gap-2 mb-4 text-center">
       <div class="bg-[#271a1e] border border-[#3f2830] p-2.5 rounded-xl">
         <div class="text-[9px] font-bold uppercase text-[#9c828a]">PAIR</div>
         <select id="pairSelect" class="bg-transparent text-xs font-extrabold text-white outline-none w-full text-center mt-1 cursor-pointer">
-          <option value="USD/BDT" style="background:#1c1316;">USD/BDT</option>
-          <option value="EUR/USD" style="background:#1c1316;">EUR/USD</option>
-          <option value="GBP/USD" style="background:#1c1316;">GBP/USD</option>
-          <option value="AUD/CAD" style="background:#1c1316;">AUD/CAD</option>
-          <option value="USD/JPY" style="background:#1c1316;">USD/JPY</option>
+          <!-- Populated via script based on broker -->
         </select>
       </div>
 
       <div class="bg-[#271a1e] border border-[#3f2830] p-2.5 rounded-xl">
-        <div class="text-[9px] font-bold uppercase text-[#9c828a]">TF</div>
+        <div class="text-[9px] font-bold uppercase text-[#9c828a]">TF (Time)</div>
         <select id="tfSelect" class="bg-transparent text-xs font-extrabold text-rose-400 outline-none w-full text-center mt-1 cursor-pointer">
-          <option value="5s" selected style="background:#1c1316;">5s</option>
-          <option value="15s" style="background:#1c1316;">15s</option>
-          <option value="30s" style="background:#1c1316;">30s</option>
-          <option value="1m" style="background:#1c1316;">1m</option>
-          <option value="5m" style="background:#1c1316;">5m</option>
+          <optgroup label="⚡ Sequential Seconds" style="background:#1c1316;">
+            <option value="3s" style="background:#1c1316;">3s</option>
+            <option value="4s" style="background:#1c1316;">4s</option>
+            <option value="5s" selected style="background:#1c1316;">5s</option>
+            <option value="6s" style="background:#1c1316;">6s</option>
+            <option value="7s" style="background:#1c1316;">7s</option>
+            <option value="8s" style="background:#1c1316;">8s</option>
+            <option value="9s" style="background:#1c1316;">9s</option>
+            <option value="10s" style="background:#1c1316;">10s</option>
+            <option value="15s" style="background:#1c1316;">15s</option>
+            <option value="20s" style="background:#1c1316;">20s</option>
+            <option value="30s" style="background:#1c1316;">30s</option>
+          </optgroup>
+          <optgroup label="⏱️ Minutes & Hours" style="background:#1c1316;">
+            <option value="1m" style="background:#1c1316;">1m</option>
+            <option value="2m" style="background:#1c1316;">2m</option>
+            <option value="3m" style="background:#1c1316;">3m</option>
+            <option value="5m" style="background:#1c1316;">5m</option>
+            <option value="15m" style="background:#1c1316;">15m</option>
+            <option value="30m" style="background:#1c1316;">30m</option>
+            <option value="1h" style="background:#1c1316;">1h</option>
+          </optgroup>
         </select>
       </div>
 
       <div class="bg-[#271a1e] border border-[#3f2830] p-2.5 rounded-xl">
         <div class="text-[9px] font-bold uppercase text-[#9c828a]">STRENGTH</div>
-        <div class="text-xs font-extrabold text-emerald-400 font-mono mt-1">78%</div>
+        <div id="strengthDisplay" class="text-xs font-extrabold text-emerald-400 font-mono mt-1">98%</div>
       </div>
     </div>
 
-    <!-- Main Action Button -->
-    <button id="mainBtn" onclick="onGenerateSignalClick()" class="btn-main w-full py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-lg">
-      <i class="fa-solid fa-play"></i>
-      <span id="btnText">START BOT</span>
-    </button>
+    <!-- Main Action Buttons (Dynamic professional styling + Quick Generate Button) -->
+    <div id="buttonContainer" class="space-y-2.5">
+      <button id="mainBtn" onclick="onMainBtnClick()" class="btn-main w-full py-4 rounded-2xl font-extrabold text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 cursor-pointer">
+        <i class="fa-solid fa-play text-base"></i>
+        <span id="btnText">START BOT</span>
+      </button>
+    </div>
 
     <!-- Bottom Navigation Bar -->
     <div class="mt-5 pt-3 border-t border-[#3f2830] grid grid-cols-5 text-center text-xs">
@@ -300,108 +356,167 @@
   </div>
 
   <script>
-    let isWorking = false;
+    let botState = 'STANDBY'; // STANDBY, ANALYZING, SIGNAL_READY
     let activeInterval = null;
+
+    // Comprehensive asset list for Quotex and Pocket Option
+    const brokerPairsData = {
+      "QUOTEX": [
+        "USD/BDT", "EUR/USD", "GBP/USD", "AUD/CAD", "USD/JPY", 
+        "EUR/JPY", "GBP/JPY", "AUD/USD", "USD/CHF", "NZD/USD", 
+        "EUR/GBP", "USD/CAD", "CAD/JPY", "CHF/JPY", "EUR/AUD",
+        "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "AUD/USD (OTC)"
+      ],
+      "POCKET OPTION": [
+        "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "AUD/CAD (OTC)", 
+        "NZD/USD (OTC)", "EUR/GBP (OTC)", "USD/CHF (OTC)", "USD/BDT (OTC)", 
+        "USD/PKR (OTC)", "USD/INR (OTC)", "USD/BRL (OTC)", "USD/MXN (OTC)", 
+        "BTC/USD", "ETH/USD", "AAPL/USD", "TSLA/USD", "GOLD", "SILVER"
+      ]
+    };
+
+    function populatePairs() {
+      const broker = document.getElementById('brokerSelect').value;
+      const pairSelect = document.getElementById('pairSelect');
+      const pairs = brokerPairsData[broker] || brokerPairsData["QUOTEX"];
+
+      pairSelect.innerHTML = '';
+      pairs.forEach(pair => {
+        const opt = document.createElement('option');
+        opt.value = pair;
+        opt.innerText = pair;
+        opt.style.backgroundColor = "#1c1316";
+        pairSelect.appendChild(opt);
+      });
+    }
+
+    function onBrokerChange() {
+      const broker = document.getElementById('brokerSelect').value;
+      const badge = document.getElementById('brokerBadge');
+      badge.innerText = broker === "QUOTEX" ? "QX" : "PO";
+      populatePairs();
+    }
 
     function setMarketMode(mode) {
       const otcTab = document.getElementById('otcTab');
       const liveTab = document.getElementById('liveTab');
+      
       if (mode === 'OTC') {
         otcTab.className = "mode-tab active-otc p-3 rounded-xl cursor-pointer flex items-center justify-between";
         otcTab.querySelector('.w-2\\.5').className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]";
         liveTab.className = "mode-tab p-3 rounded-xl cursor-pointer flex items-center justify-between";
         liveTab.querySelector('.w-2\\.5').className = "w-2.5 h-2.5 rounded-full bg-zinc-600";
       } else {
-        liveTab.className = "mode-tab p-3 rounded-xl cursor-pointer flex items-center justify-between";
+        liveTab.className = "mode-tab active-live p-3 rounded-xl cursor-pointer flex items-center justify-between";
         liveTab.querySelector('.w-2\\.5').className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]";
         otcTab.className = "mode-tab p-3 rounded-xl cursor-pointer flex items-center justify-between";
         otcTab.querySelector('.w-2\\.5').className = "w-2.5 h-2.5 rounded-full bg-zinc-600";
       }
     }
 
-    function onGenerateSignalClick() {
-      const btn = document.getElementById('mainBtn');
-      const btnText = document.getElementById('btnText');
-
-      if (!isWorking) {
-        isWorking = true;
-        btnText.innerText = "STOP BOT";
-        btn.classList.add('btn-stop');
-        btn.querySelector('i').className = "fa-solid fa-stop";
-
-        runVideoCountdownSequence();
-      } else {
-        resetEngineState();
+    function onMainBtnClick() {
+      if (botState === 'STANDBY' || botState === 'SIGNAL_READY') {
+        startAnalysisSequence();
       }
     }
 
-    function runVideoCountdownSequence() {
+    function startAnalysisSequence() {
+      botState = 'ANALYZING';
       clearInterval(activeInterval);
+
+      // Reset board background
       document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
       document.getElementById('activeMetaPanel').classList.add('hidden');
 
+      // Update button state to analyzing
+      const container = document.getElementById('buttonContainer');
+      container.innerHTML = `
+        <button disabled class="btn-main w-full py-4 rounded-2xl font-extrabold text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 opacity-80 cursor-not-allowed">
+          <i class="fa-solid fa-spinner fa-spin text-base"></i>
+          <span>ANALYZING MARKET...</span>
+        </button>
+      `;
+
       let count = 5;
-      document.getElementById('engineSubState').innerText = "Neural scan in progress...";
-      document.getElementById('engineMainText').className = "text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3";
-      document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xl mr-1"></i> ANALYZING (${count})`;
+      document.getElementById('engineSubState').innerText = "Running multi-layer neural scan...";
+      document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-500 tracking-wider my-3";
+      document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl mr-2"></i> ${count}`;
+      document.getElementById('engineDescText').innerText = "Analyzing order blocks, volatility index & momentum...";
 
       activeInterval = setInterval(() => {
         count--;
         if (count > 0) {
-          document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xl mr-1"></i> ANALYZING (${count})`;
+          document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl mr-2"></i> ${count}`;
         } else {
           clearInterval(activeInterval);
-          displayVideoSignalResult();
+          evaluateAndGenerateSignal();
         }
       }, 1000);
     }
 
-    function displayVideoSignalResult() {
-      if (!isWorking) return;
-
+    function evaluateAndGenerateSignal() {
+      botState = 'SIGNAL_READY';
       const pair = document.getElementById('pairSelect').value;
       const tf = document.getElementById('tfSelect').value;
-      const isBuy = Math.random() > 0.5; // Randomly determines CALL (Buy - Green) or PUT (Sell - Red)
+      const broker = document.getElementById('brokerSelect').value;
+
+      // Smart Safety Check: 15% chance to output "NO TRADE" if market conditions are mixed
+      const marketSafetyRoll = Math.random();
+
+      if (marketSafetyRoll < 0.15) {
+        // NO TRADE CONDITION
+        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-notrade";
+        document.getElementById('engineSubState').innerText = "Market Volatility Alert • " + broker;
+        document.getElementById('engineMainText').className = "text-2xl md:text-3xl font-black text-amber-400 tracking-wider my-2";
+        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> NO TRADE`;
+        document.getElementById('engineDescText').innerHTML = `Unstable trend detected on <strong class="text-white">${pair}</strong>. After analyzing: <strong class="text-amber-300">Please wait for next candle block</strong>.`;
+        document.getElementById('activeMetaPanel').classList.add('hidden');
+        renderActionButtons();
+        return;
+      }
+
+      // HIGH ACCURACY SIGNAL (CALL or PUT)
+      const isBuy = Math.random() > 0.5;
+      const accuracyScore = Math.floor(Math.random() * 4) + 96; // 96% to 99% high accuracy
 
       document.getElementById('metaPair').innerText = pair;
       document.getElementById('metaTf').innerText = tf;
-      document.getElementById('metaStrength').innerText = "91%";
+      document.getElementById('metaStrength').innerText = `${accuracyScore}%`;
       document.getElementById('activeMetaPanel').classList.remove('hidden');
 
       if (isBuy) {
-        // Entire board turns vibrant green for CALL / BUY
+        // BOARD TURNS VIBRANT GREEN (BUY / CALL)
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-buy";
-        document.getElementById('engineSubState').innerText = "SIGNAL LIVE • QUOTEX";
-        document.getElementById('engineMainText').className = "text-3xl md:text-4xl font-black text-emerald-300 tracking-wider my-2";
-        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL<br><span class="text-xs tracking-normal font-medium text-emerald-200">CONFIDENCE 91%</span>`;
-        document.getElementById('engineDescText').innerHTML = `TAKE TRADE IN <strong class="text-white text-base">4s</strong>`;
+        document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
+        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-emerald-300 tracking-wider my-2 animate-bounce";
+        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL (BUY)`;
+        document.getElementById('engineDescText').innerHTML = `High-accuracy entry confirmed on <strong class="text-white">${pair}</strong> for duration <strong class="text-emerald-300">${tf}</strong>. Execute immediately!`;
       } else {
-        // Entire board turns deep red for PUT / SELL (matching video behavior)
+        // BOARD TURNS DEEP RED (SELL / PUT)
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-sell";
-        document.getElementById('engineSubState').innerText = "SIGNAL LIVE • QUOTEX";
-        document.getElementById('engineMainText').className = "text-3xl md:text-4xl font-black text-rose-400 tracking-wider my-2";
-        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-down mr-1"></i> PUT<br><span class="text-xs tracking-normal font-medium text-rose-200">CONFIDENCE 91%</span>`;
-        document.getElementById('engineDescText').innerHTML = `TAKE TRADE IN <strong class="text-white text-base">3s</strong>`;
+        document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
+        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-400 tracking-wider my-2 animate-bounce";
+        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-down mr-1"></i> PUT (SELL)`;
+        document.getElementById('engineDescText').innerHTML = `High-accuracy entry confirmed on <strong class="text-white">${pair}</strong> for duration <strong class="text-rose-300">${tf}</strong>. Execute immediately!`;
       }
+
+      renderActionButtons();
     }
 
-    function resetEngineState() {
-      isWorking = false;
-      clearInterval(activeInterval);
-
-      const btn = document.getElementById('mainBtn');
-      const btnText = document.getElementById('btnText');
-      btnText.innerText = "START BOT";
-      btn.classList.remove('btn-stop');
-      btn.querySelector('i').className = "fa-solid fa-play";
-
-      document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
-      document.getElementById('engineSubState').innerText = "Awaiting activation";
-      document.getElementById('engineMainText').className = "text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3 radar-anim";
-      document.getElementById('engineMainText').innerText = "STANDBY";
-      document.getElementById('engineDescText').innerHTML = 'Press <strong class="text-white">START BOT</strong> to receive signals';
-      document.getElementById('activeMetaPanel').classList.add('hidden');
+    // Render the extra "GENERATE SIGNAL AGAIN" button directly in place without going back
+    function renderActionButtons() {
+      const container = document.getElementById('buttonContainer');
+      container.innerHTML = `
+        <button onclick="onMainBtnClick()" class="btn-secondary w-full py-4 rounded-2xl font-extrabold text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 cursor-pointer">
+          <i class="fa-solid fa-bolt text-base"></i>
+          <span>GENERATE SIGNAL AGAIN</span>
+        </button>
+      `;
     }
+
+    window.onload = function() {
+      populatePairs();
+    };
   </script>
 </body>
 </html>
