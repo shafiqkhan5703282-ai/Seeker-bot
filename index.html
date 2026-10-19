@@ -4,12 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AMIR FX - AI SIGNAL ENGINE PRO V2</title>
-  
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
@@ -27,148 +23,45 @@
       --text-muted: #957882;
     }
 
-    * {
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
+    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    body { background-color: var(--bg-dark); color: var(--text-light); min-height: 100vh; transition: background-color 0.4s ease; overflow-x: hidden; }
 
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
+    body.board-buy { background-color: #021a0f !important; box-shadow: inset 0 0 220px rgba(16, 185, 129, 0.45); }
+    body.board-sell { background-color: #24040b !important; box-shadow: inset 0 0 220px rgba(244, 63, 94, 0.45); }
+    body.board-notrade { background-color: #211702 !important; box-shadow: inset 0 0 220px rgba(245, 158, 11, 0.35); }
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-light);
-      min-height: 100vh;
-      transition: background-color 0.4s ease;
-      overflow-x: hidden;
-    }
+    .app-card { background-color: var(--card-bg); border: 2px solid var(--border-color); border-radius: 30px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9); transition: all 0.4s ease; }
+    body.board-buy .app-card { border-color: var(--accent-green); background-color: #082e1d; }
+    body.board-sell .app-card { border-color: var(--accent-red); background-color: #300a12; }
+    body.board-notrade .app-card { border-color: var(--accent-yellow); background-color: #2e2105; }
 
-    /* Dynamic Full Board Themes */
-    body.board-buy {
-      background-color: #021a0f !important;
-      box-shadow: inset 0 0 220px rgba(16, 185, 129, 0.45);
-    }
-    body.board-sell {
-      background-color: #24040b !important;
-      box-shadow: inset 0 0 220px rgba(244, 63, 94, 0.45);
-    }
-    body.board-notrade {
-      background-color: #211702 !important;
-      box-shadow: inset 0 0 220px rgba(245, 158, 11, 0.35);
-    }
+    .mode-tab { background: var(--card-inner); border: 1.5px solid var(--border-color); transition: all 0.25s ease; cursor: pointer; }
+    .mode-tab.active-otc { background: linear-gradient(135deg, rgba(244,63,94,0.15), rgba(244,63,94,0.35)); border-color: var(--accent-red); }
+    .mode-tab.active-live { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.35)); border-color: var(--accent-green); }
 
-    .app-card {
-      background-color: var(--card-bg);
-      border: 2px solid var(--border-color);
-      border-radius: 30px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
-      transition: all 0.4s ease;
-    }
+    .accuracy-btn { background: var(--card-inner); border: 1.5px solid var(--border-color); color: var(--text-muted); transition: all 0.25s ease; }
+    .accuracy-btn.active { background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.4)); border-color: var(--accent-yellow); color: #fff; font-weight: 800; box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
 
-    body.board-buy .app-card {
-      border-color: var(--accent-green);
-      background-color: #082e1d;
-    }
-    body.board-sell .app-card {
-      border-color: var(--accent-red);
-      background-color: #300a12;
-    }
-    body.board-notrade .app-card {
-      border-color: var(--accent-yellow);
-      background-color: #2e2105;
-    }
-
-    .mode-tab {
-      background: var(--card-inner);
-      border: 1.5px solid var(--border-color);
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-    .mode-tab.active-otc {
-      background: linear-gradient(135deg, rgba(244,63,94,0.15), rgba(244,63,94,0.35));
-      border-color: var(--accent-red);
-    }
-    .mode-tab.active-live {
-      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.35));
-      border-color: var(--accent-green);
-    }
-
-    .accuracy-btn {
-      background: var(--card-inner);
-      border: 1.5px solid var(--border-color);
-      color: var(--text-muted);
-      transition: all 0.25s ease;
-    }
-    .accuracy-btn.active {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.4));
-      border-color: var(--accent-yellow);
-      color: #fff;
-      font-weight: 800;
-      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
-    }
-
-    .engine-box {
-      background: linear-gradient(145deg, #150d10, #201418);
-      border: 2px dashed rgba(244, 63, 94, 0.4);
-      position: relative;
-    }
-
-    body.board-buy .engine-box {
-      background: linear-gradient(145deg, #0b3824, #135235);
-      border: 2px solid var(--accent-green);
-    }
-    body.board-sell .engine-box {
-      background: linear-gradient(145deg, #470f1a, #661525);
-      border: 2px solid var(--accent-red);
-    }
-    body.board-notrade .engine-box {
-      background: linear-gradient(145deg, #4a3608, #694f0b);
-      border: 2px solid var(--accent-yellow);
-    }
+    .engine-box { background: linear-gradient(145deg, #150d10, #201418); border: 2px dashed rgba(244, 63, 94, 0.4); position: relative; }
+    body.board-buy .engine-box { background: linear-gradient(145deg, #0b3824, #135235); border: 2px solid var(--accent-green); }
+    body.board-sell .engine-box { background: linear-gradient(145deg, #470f1a, #661525); border: 2px solid var(--accent-red); }
+    body.board-notrade .engine-box { background: linear-gradient(145deg, #4a3608, #694f0b); border: 2px solid var(--accent-yellow); }
 
     @keyframes radarPulse {
       0%, 100% { transform: scale(1); opacity: 0.85; }
       50% { transform: scale(1.02); opacity: 1; filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.6)); }
     }
-    .radar-anim {
-      animation: radarPulse 2s infinite ease-in-out;
-    }
+    .radar-anim { animation: radarPulse 2s infinite ease-in-out; }
 
-    .btn-pro {
-      background: linear-gradient(135deg, #f43f5e 0%, #9f1239 100%);
-      color: #fff;
-      box-shadow: 0 12px 35px rgba(244, 63, 94, 0.6);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      font-size: 15px;
-      letter-spacing: 0.05em;
-    }
-    .btn-pro:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 45px rgba(244, 63, 94, 0.8);
-    }
+    .btn-pro { background: linear-gradient(135deg, #f43f5e 0%, #9f1239 100%); color: #fff; box-shadow: 0 12px 35px rgba(244, 63, 94, 0.6); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; font-size: 15px; letter-spacing: 0.05em; }
+    .btn-pro:hover { transform: translateY(-3px); box-shadow: 0 18px 45px rgba(244, 63, 94, 0.8); }
 
-    .btn-stop {
-      background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-      color: #fff;
-      box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6);
-      transition: all 0.3s ease;
-      font-size: 15px;
-    }
-    .btn-stop:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 45px rgba(239, 68, 68, 0.8);
-    }
+    .btn-stop { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6); transition: all 0.3s ease; font-size: 15px; }
+    .btn-stop:hover { transform: translateY(-3px); box-shadow: 0 18px 45px rgba(239, 68, 68, 0.8); }
 
-    .nav-bottom-item {
-      color: var(--text-muted);
-      transition: color 0.2s ease;
-    }
-    .nav-bottom-item.active, .nav-bottom-item:hover {
-      color: var(--accent-red);
-    }
+    .nav-bottom-item { color: var(--text-muted); transition: color 0.2s ease; }
+    .nav-bottom-item.active, .nav-bottom-item:hover { color: var(--accent-red); }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-3 md:p-6">
@@ -178,9 +71,7 @@
     <!-- Top Header -->
     <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#38222a]">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center font-black text-white text-xs shadow-lg">
-          AF
-        </div>
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center font-black text-white text-xs shadow-lg">AF</div>
         <div>
           <div class="text-[10px] font-bold text-[#957882] uppercase tracking-wider">AI ENGINE PRO</div>
           <div class="text-xs font-extrabold text-white flex items-center gap-1.5">
@@ -189,9 +80,7 @@
           </div>
         </div>
       </div>
-      <div class="px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 font-bold text-[11px]">
-        PRO V2
-      </div>
+      <div class="px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 font-bold text-[11px]">PRO V2</div>
     </div>
 
     <!-- Market Mode Selector -->
@@ -234,9 +123,7 @@
     <!-- Broker Selector -->
     <div class="bg-[#22161a] border border-[#38222a] rounded-2xl p-3.5 mb-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div id="brokerBadge" class="w-10 h-10 rounded-xl bg-black/40 border border-rose-500/30 flex items-center justify-center text-rose-500 font-extrabold text-xs">
-          PO
-        </div>
+        <div id="brokerBadge" class="w-10 h-10 rounded-xl bg-black/40 border border-rose-500/30 flex items-center justify-center text-rose-500 font-extrabold text-xs">PO</div>
         <div>
           <div class="text-[10px] font-bold text-[#957882] uppercase">Active Platform</div>
           <select id="brokerSelect" onchange="onBrokerChange()" class="bg-transparent text-xs font-extrabold text-white outline-none cursor-pointer mt-0.5">
@@ -268,11 +155,9 @@
 
       <div id="engineSubState" class="text-xs text-[#957882] font-medium mb-1">System ready for scanning</div>
 
-      <div id="engineMainText" class="text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3 radar-anim">
-        STANDBY
-      </div>
+      <div id="engineMainText" class="text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3 radar-anim">STANDBY</div>
 
-      <p id="engineDescText" class="text-xs text-[#957882] leading-relaxed max-w-xs mx-auto">
+      <p id="engineDescText" class="text-xs text-[#957882] leading-relaxed max-w-mx mx-auto">
         Tap START BOT below to launch automatic continuous signal scanning.
       </p>
 
@@ -366,7 +251,6 @@
     let countdownInterval = null;
     let selectedAccuracy = 85;
 
-    // Comprehensive Asset Database
     const brokerAssets = {
       "POCKET OPTION": [
         "EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "USD/CHF", "NZD/USD",
@@ -482,11 +366,8 @@
       const pair = document.getElementById('pairSelect').value;
       const tf = document.getElementById('tfSelect').value;
       const broker = document.getElementById('brokerSelect').value;
+      const signalStrength = Math.floor(Math.random() * 20) + 80;
 
-      // Random signal strength score generated by Neural Engine
-      const signalStrength = Math.floor(Math.random() * 20) + 80; // 80% to 99%
-
-      // Check if signal meets user accuracy threshold
       if (signalStrength < selectedAccuracy) {
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-notrade";
         document.getElementById('engineSubState').innerText = `${broker} • Confidence Below ${selectedAccuracy}%`;
@@ -517,7 +398,6 @@
         }
       }
 
-      // Schedule next continuous cycle after 3.5 seconds
       if (isAutoLoopRunning) {
         loopTimeout = setTimeout(() => {
           executeSignalCycle();
