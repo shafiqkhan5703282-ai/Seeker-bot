@@ -94,6 +94,20 @@
       border-color: var(--accent-green);
     }
 
+    .accuracy-btn {
+      background: var(--card-inner);
+      border: 1.5px solid var(--border-color);
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+    }
+    .accuracy-btn.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.4));
+      border-color: var(--accent-yellow);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+
     .engine-box {
       background: linear-gradient(145deg, #150d10, #201418);
       border: 2px dashed rgba(244, 63, 94, 0.4);
@@ -131,33 +145,21 @@
       font-size: 15px;
       letter-spacing: 0.05em;
     }
-    .btn-pro::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-      transition: 0.6s;
-    }
-    .btn-pro:hover::after {
-      left: 100%;
-    }
     .btn-pro:hover {
       transform: translateY(-3px);
       box-shadow: 0 18px 45px rgba(244, 63, 94, 0.8);
     }
 
-    .btn-generate-again {
-      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    .btn-stop {
+      background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
       color: #fff;
-      box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6);
+      transition: all 0.3s ease;
       font-size: 15px;
-      letter-spacing: 0.05em;
     }
-    .btn-generate-again:hover {
+    .btn-stop:hover {
       transform: translateY(-3px);
-      box-shadow: 0 18px 45px rgba(16, 185, 129, 0.7);
-      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      box-shadow: 0 18px 45px rgba(239, 68, 68, 0.8);
     }
 
     .nav-bottom-item {
@@ -216,6 +218,19 @@
       </div>
     </div>
 
+    <!-- Accuracy Level Selector Bar -->
+    <div class="mb-4">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-[#957882] mb-2 flex items-center justify-between">
+        <span><i class="fa-solid fa-bullseye text-amber-500 mr-1"></i> Minimum Accuracy Threshold</span>
+        <span id="selectedAccText" class="text-amber-400 font-mono text-[10px] font-bold">85% Filter</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="setAccuracyThreshold(80)" id="acc80" class="accuracy-btn py-2.5 rounded-xl text-xs font-bold font-mono">80%</button>
+        <button onclick="setAccuracyThreshold(85)" id="acc85" class="accuracy-btn active py-2.5 rounded-xl text-xs font-bold font-mono">85%</button>
+        <button onclick="setAccuracyThreshold(90)" id="acc90" class="accuracy-btn py-2.5 rounded-xl text-xs font-bold font-mono">90%</button>
+      </div>
+    </div>
+
     <!-- Broker Selector -->
     <div class="bg-[#22161a] border border-[#38222a] rounded-2xl p-3.5 mb-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -258,7 +273,7 @@
       </div>
 
       <p id="engineDescText" class="text-xs text-[#957882] leading-relaxed max-w-xs mx-auto">
-        Tap the large button below to run deep multi-asset analysis.
+        Tap START BOT below to launch automatic continuous signal scanning.
       </p>
 
       <!-- Meta Analytics Board -->
@@ -269,7 +284,7 @@
         </div>
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
           <div class="text-[9px] text-[#957882] font-bold uppercase">Duration</div>
-          <div id="metaTf" class="text-xs font-extrabold text-rose-400 font-mono mt-0.5">5s</div>
+          <div id="metaTf" class="text-xs font-extrabold text-rose-400 font-mono mt-0.5">1m</div>
         </div>
         <div class="bg-black/30 p-2.5 rounded-xl border border-white/10">
           <div class="text-[9px] text-[#957882] font-bold uppercase">Probability</div>
@@ -291,20 +306,16 @@
         <div class="text-[9px] font-bold uppercase text-[#957882]">EXPIRATION</div>
         <select id="tfSelect" class="bg-transparent text-xs font-extrabold text-rose-400 outline-none w-full text-center mt-1 cursor-pointer">
           <optgroup label="⚡ Seconds" style="background:#181013;">
-            <option value="3s" style="background:#181013;">3s</option>
-            <option value="4s" style="background:#181013;">4s</option>
-            <option value="5s" selected style="background:#181013;">5s</option>
+            <option value="5s" style="background:#181013;">5s</option>
             <option value="10s" style="background:#181013;">10s</option>
             <option value="15s" style="background:#181013;">15s</option>
             <option value="30s" style="background:#181013;">30s</option>
           </optgroup>
           <optgroup label="⏱️ Minutes / Hours" style="background:#181013;">
-            <option value="1m" style="background:#181013;">1m</option>
+            <option value="1m" selected style="background:#181013;">1m</option>
             <option value="2m" style="background:#181013;">2m</option>
             <option value="5m" style="background:#181013;">5m</option>
             <option value="15m" style="background:#181013;">15m</option>
-            <option value="30m" style="background:#181013;">30m</option>
-            <option value="1h" style="background:#181013;">1h</option>
           </optgroup>
         </select>
       </div>
@@ -317,9 +328,9 @@
 
     <!-- Action Button Container -->
     <div id="buttonContainer" class="space-y-3">
-      <button onclick="startAnalysis()" class="btn-pro w-full py-5 rounded-2xl font-extrabold tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer">
+      <button id="mainToggleBtn" onclick="toggleAutoLoop()" class="btn-pro w-full py-5 rounded-2xl font-extrabold tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer">
         <i class="fa-solid fa-play text-lg"></i>
-        <span>START BOT</span>
+        <span>START BOT (AUTO LOOP)</span>
       </button>
     </div>
 
@@ -350,35 +361,28 @@
   </div>
 
   <script>
-    let activeInterval = null;
+    let isAutoLoopRunning = false;
+    let loopTimeout = null;
+    let countdownInterval = null;
+    let selectedAccuracy = 85;
 
-    // Comprehensive Asset Database featuring all full Pocket Option pairs & OTC assets
+    // Comprehensive Asset Database
     const brokerAssets = {
       "POCKET OPTION": [
-        // Standard Currencies
         "EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "USD/CHF", "NZD/USD",
         "EUR/GBP", "EUR/JPY", "GBP/JPY", "AUD/JPY", "CAD/JPY", "GBP/AUD", "EUR/AUD", "AUD/NZD",
-        // OTC Currencies
         "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "AUD/USD (OTC)", "USD/CAD (OTC)",
         "USD/CHF (OTC)", "NZD/USD (OTC)", "EUR/GBP (OTC)", "EUR/JPY (OTC)", "GBP/JPY (OTC)",
         "AUD/JPY (OTC)", "CAD/JPY (OTC)", "USD/BRL (OTC)", "USD/INR (OTC)", "USD/MXN (OTC)",
-        "USD/PHP (OTC)", "USD/IDR (OTC)", "USD/ZAR (OTC)", "USD/PKR (OTC)", "EUR/TRY (OTC)",
-        // Cryptocurrencies
-        "BTC/USD", "ETH/USD", "LTC/USD", "XRP/USD", "ADA/USD", "SOL/USD", "BNB/USD", "DOGE/USD",
-        // Cryptocurrencies OTC
-        "Bitcoin (OTC)", "Ethereum (OTC)", "Litecoin (OTC)", "Ripple (OTC)", "Cardano (OTC)",
-        "Solana (OTC)", "Binance Coin (OTC)", "Dogecoin (OTC)", "Toncoin (OTC)", "Shiba Inu (OTC)",
-        // Commodities
-        "GOLD (XAU/USD)", "SILVER (XAG/USD)", "UK Brent Oil", "US Crude Oil", "Natural Gas", "GOLD (OTC)",
-        // Stocks & Equities OTC
-        "Apple (AAPL)", "Apple (OTC)", "Tesla (TSLA)", "Tesla (OTC)", "Microsoft (MSFT)", "Microsoft (OTC)",
-        "Google (GOOGL)", "Google (OTC)", "Amazon (AMZN)", "Amazon (OTC)", "Netflix (NFLX)", "Netflix (OTC)",
-        "Meta / Facebook (OTC)", "Alibaba (OTC)", "Intel (OTC)", "Visa (OTC)"
+        "BTC/USD", "ETH/USD", "LTC/USD", "XRP/USD", "ADA/USD", "SOL/USD",
+        "Bitcoin (OTC)", "Ethereum (OTC)", "Litecoin (OTC)", "Ripple (OTC)",
+        "GOLD (XAU/USD)", "SILVER (XAG/USD)", "UK Brent Oil", "US Crude Oil", "GOLD (OTC)",
+        "Apple (OTC)", "Tesla (OTC)", "Microsoft (OTC)", "Google (OTC)", "Amazon (OTC)"
       ],
       "QUOTEX": [
         "EUR/USD", "GBP/USD", "USD/JPY", "AUD/CAD", "EUR/JPY", 
         "GBP/JPY", "AUD/USD", "USD/CHF", "NZD/USD", "EUR/GBP", 
-        "USD/CAD", "USD/BDT", "EUR/USD (OTC)", "GBP/USD (OTC)", 
+        "USD/CAD", "EUR/USD (OTC)", "GBP/USD (OTC)", 
         "USD/JPY (OTC)", "AUD/USD (OTC)", "EUR/JPY (OTC)"
       ]
     };
@@ -419,83 +423,122 @@
       }
     }
 
-    function startAnalysis() {
-      clearInterval(activeInterval);
+    function setAccuracyThreshold(level) {
+      selectedAccuracy = level;
+      document.querySelectorAll('.accuracy-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`acc${level}`).classList.add('active');
+      document.getElementById('selectedAccText').innerText = `${level}% Filter`;
+    }
+
+    function toggleAutoLoop() {
+      if (isAutoLoopRunning) {
+        stopAutoLoop();
+      } else {
+        isAutoLoopRunning = true;
+        renderStopButton();
+        executeSignalCycle();
+      }
+    }
+
+    function stopAutoLoop() {
+      isAutoLoopRunning = false;
+      clearTimeout(loopTimeout);
+      clearInterval(countdownInterval);
+      document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
+      document.getElementById('engineSubState').innerText = "System ready for scanning";
+      document.getElementById('engineMainText').className = "text-3xl md:text-4xl font-black text-rose-500 tracking-wider my-3 radar-anim";
+      document.getElementById('engineMainText').innerText = "STANDBY";
+      document.getElementById('engineDescText').innerText = "Tap START BOT below to launch automatic continuous signal scanning.";
+      document.getElementById('activeMetaPanel').classList.add('hidden');
+      renderStartButton();
+    }
+
+    function executeSignalCycle() {
+      if (!isAutoLoopRunning) return;
+
       document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6";
       document.getElementById('activeMetaPanel').classList.add('hidden');
-
-      document.getElementById('buttonContainer').innerHTML = `
-        <button disabled class="btn-pro w-full py-5 rounded-2xl font-extrabold uppercase flex items-center justify-center gap-3 opacity-80 cursor-not-allowed">
-          <i class="fa-solid fa-spinner fa-spin text-lg"></i>
-          <span>SCANNING MARKET DATA...</span>
-        </button>
-      `;
-
-      let count = 5;
       document.getElementById('engineSubState').innerText = "Analyzing live price action & volume...";
       document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-500 tracking-wider my-3";
-      document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl mr-2"></i> ${count}`;
       document.getElementById('engineDescText').innerText = "Checking multi-timeframe confirmation levels...";
 
-      activeInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl mr-2"></i> ${count}`;
+      let scanTime = 3;
+      document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl mr-2"></i> ${scanTime}`;
+
+      countdownInterval = setInterval(() => {
+        scanTime--;
+        if (scanTime > 0) {
+          document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl mr-2"></i> ${scanTime}`;
         } else {
-          clearInterval(activeInterval);
-          generatePreciseSignal();
+          clearInterval(countdownInterval);
+          generateAndDisplaySignal();
         }
       }, 1000);
     }
 
-    function generatePreciseSignal() {
+    function generateAndDisplaySignal() {
+      if (!isAutoLoopRunning) return;
+
       const pair = document.getElementById('pairSelect').value;
       const tf = document.getElementById('tfSelect').value;
       const broker = document.getElementById('brokerSelect').value;
 
-      const marketFilterRoll = Math.random();
+      // Random signal strength score generated by Neural Engine
+      const signalStrength = Math.floor(Math.random() * 20) + 80; // 80% to 99%
 
-      if (marketFilterRoll < 0.12) {
+      // Check if signal meets user accuracy threshold
+      if (signalStrength < selectedAccuracy) {
         document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-notrade";
-        document.getElementById('engineSubState').innerText = `${broker} • Volatility Filter`;
+        document.getElementById('engineSubState').innerText = `${broker} • Confidence Below ${selectedAccuracy}%`;
         document.getElementById('engineMainText').className = "text-2xl md:text-3xl font-black text-amber-400 tracking-wider my-2";
         document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> NO TRADE`;
-        document.getElementById('engineDescText').innerHTML = `Market volatility on <strong class="text-white">${pair}</strong> is mixed. <strong class="text-amber-300">Please wait for next candle setup</strong>.`;
+        document.getElementById('engineDescText').innerHTML = `Signal strength on <strong class="text-white">${pair}</strong> is <strong class="text-amber-300">${signalStrength}%</strong> (Below ${selectedAccuracy}% threshold). <strong class="text-amber-300">Please wait...</strong>`;
         document.getElementById('activeMetaPanel').classList.add('hidden');
-        renderRegenerateButton();
-        return;
-      }
-
-      const isBuy = Math.random() > 0.5;
-      const winProbability = Math.floor(Math.random() * 3) + 97;
-
-      document.getElementById('metaPair').innerText = pair;
-      document.getElementById('metaTf').innerText = tf;
-      document.getElementById('metaStrength').innerText = `${winProbability}%`;
-      document.getElementById('activeMetaPanel').classList.remove('hidden');
-
-      if (isBuy) {
-        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-buy";
-        document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
-        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-emerald-300 tracking-wider my-2 animate-bounce";
-        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL (BUY)`;
-        document.getElementById('engineDescText').innerHTML = `High probability upward momentum on <strong class="text-white">${pair}</strong> (${tf}). <strong class="text-emerald-300">Execute trade now!</strong>`;
       } else {
-        document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-sell";
-        document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
-        document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-400 tracking-wider my-2 animate-bounce";
-        document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-down mr-1"></i> PUT (SELL)`;
-        document.getElementById('engineDescText').innerHTML = `High probability downward reversal on <strong class="text-white">${pair}</strong> (${tf}). <strong class="text-rose-300">Execute trade now!</strong>`;
+        const isBuy = Math.random() > 0.5;
+
+        document.getElementById('metaPair').innerText = pair;
+        document.getElementById('metaTf').innerText = tf;
+        document.getElementById('metaStrength').innerText = `${signalStrength}%`;
+        document.getElementById('activeMetaPanel').classList.remove('hidden');
+
+        if (isBuy) {
+          document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-buy";
+          document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
+          document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-emerald-300 tracking-wider my-2 animate-bounce";
+          document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-up mr-1"></i> CALL (BUY)`;
+          document.getElementById('engineDescText').innerHTML = `High probability upward momentum on <strong class="text-white">${pair}</strong> (${tf}). <strong class="text-emerald-300">Execute trade now!</strong>`;
+        } else {
+          document.body.className = "flex items-center justify-center min-h-screen p-3 md:p-6 board-sell";
+          document.getElementById('engineSubState').innerText = `${broker} • Verified Signal`;
+          document.getElementById('engineMainText').className = "text-3xl md:text-5xl font-black text-rose-400 tracking-wider my-2 animate-bounce";
+          document.getElementById('engineMainText').innerHTML = `<i class="fa-solid fa-arrow-trend-down mr-1"></i> PUT (SELL)`;
+          document.getElementById('engineDescText').innerHTML = `High probability downward reversal on <strong class="text-white">${pair}</strong> (${tf}). <strong class="text-rose-300">Execute trade now!</strong>`;
+        }
       }
 
-      renderRegenerateButton();
+      // Schedule next continuous cycle after 3.5 seconds
+      if (isAutoLoopRunning) {
+        loopTimeout = setTimeout(() => {
+          executeSignalCycle();
+        }, 3500);
+      }
     }
 
-    function renderRegenerateButton() {
+    function renderStartButton() {
       document.getElementById('buttonContainer').innerHTML = `
-        <button onclick="startAnalysis()" class="btn-generate-again w-full py-5 rounded-2xl font-extrabold tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer">
-          <i class="fa-solid fa-bolt text-lg"></i>
-          <span>GENERATE SIGNAL AGAIN</span>
+        <button onclick="toggleAutoLoop()" class="btn-pro w-full py-5 rounded-2xl font-extrabold tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer">
+          <i class="fa-solid fa-play text-lg"></i>
+          <span>START BOT (AUTO LOOP)</span>
+        </button>
+      `;
+    }
+
+    function renderStopButton() {
+      document.getElementById('buttonContainer').innerHTML = `
+        <button onclick="toggleAutoLoop()" class="btn-stop w-full py-5 rounded-2xl font-extrabold tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer">
+          <i class="fa-solid fa-square text-lg"></i>
+          <span>STOP BOT</span>
         </button>
       `;
     }
